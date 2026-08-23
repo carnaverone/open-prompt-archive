@@ -10,6 +10,7 @@ The registry is validated conceptually against [`schema/source.schema.json`](../
 |---|---|---|---|
 | [prompts.chat](reviews/prompts-chat.md) | `approved` | `CC0-1.0` | Prompt text/data only |
 | [DiffusionDB](reviews/diffusiondb.md) | `approved` | `CC0-1.0` | Prompt text + prompt-generation metadata; media excluded |
+| [BigScience PromptSource / P3](reviews/bigscience-promptsource.md) | `approved` | `Apache-2.0` | Prompt template definitions + prompt-specific metadata; underlying datasets excluded |
 | [YouMind — Nano Banana Pro](reviews/youmind-nano-banana-pro.md) | `quarantined` | `CC-BY-4.0` claimed | None; bulk corpus license scope unresolved |
 | [YouMind — GPT Image 2](reviews/youmind-gpt-image-2.md) | `quarantined` | `CC-BY-4.0` claimed | None; bulk corpus license scope unresolved |
 | [YouMind — Seedance 2](reviews/youmind-seedance-2.md) | `quarantined` | `CC-BY-4.0` claimed | None; bulk corpus license scope unresolved |
@@ -65,3 +66,5 @@ Review notes should link to primary evidence and clearly distinguish:
 **An upstream open-source license is evidence, not a substitute for provenance analysis.**
 
 When a repository aggregates prompts from unrelated authors, social networks, forums, or other external sources, Open Prompt Archive verifies whether the upstream project actually has authority to place those records under the claimed license. If that link cannot be established, the source remains metadata-only until stronger evidence is available.
+
+The inverse also matters: when a project has a clear contribution workflow that treats prompt templates themselves as contributions to a licensed work, Open Prompt Archive may approve that narrowly defined prompt/template layer while still excluding independently licensed datasets or media referenced by those prompts.
