@@ -23,6 +23,15 @@
   <a href="CONTRIBUTING.md">Contribute</a>
 </p>
 
+<p align="center">
+  <img src="docs/assets/open-prompt-archive-visual.png"
+       alt="Open Prompt Archive visual concept"
+       width="100%">
+</p>
+
+> [!CAUTION]
+> The card fields shown inside this illustration are **decorative example metadata**, not canonical release metadata. Use the verified dataset facts, manifests, schemas, and source reviews in this repository for authoritative licensing and provenance information.
+
 ---
 
 > [!IMPORTANT]
@@ -46,6 +55,20 @@
 
 **Release:** [`dataset-v0.1.0`](https://github.com/carnaverone/open-prompt-archive/releases/tag/dataset-v0.1.0)  
 **Reviewed upstream revision:** `25cb43d6e61974e66f3650cbc5a65482bc592552`
+
+---
+
+## 🧭 How data becomes a release
+
+<p align="center">
+  <img src="docs/assets/open-prompt-archive-pipeline.png"
+       alt="Open Prompt Archive publication pipeline"
+       width="100%">
+</p>
+
+**Discover → verify license & provenance → pin source revision → normalize → review content & privacy → validate → manifest & checksum → publish**
+
+Only an **approved source scope** can move into a published prompt snapshot.
 
 ---
 
@@ -134,20 +157,6 @@ The canonical schema requires an ID, prompt, type, source, license, and provenan
 ```
 
 See [`schema/prompt.schema.json`](schema/prompt.schema.json) and [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) for the complete contract.
-
----
-
-## 🧭 How data becomes a release
-
-<p align="center">
-  <img src="docs/assets/open-prompt-archive-pipeline.png"
-       alt="Open Prompt Archive publication pipeline"
-       width="100%">
-</p>
-
-**Discover → verify license & provenance → pin source revision → normalize → review content & privacy → validate → manifest & checksum → publish**
-
-Only an **approved source scope** can move into a published prompt snapshot.
 
 ---
 
@@ -350,19 +359,6 @@ See [`GOVERNANCE.md`](GOVERNANCE.md).
 
 ---
 
-## 🖼️ Project visual
-
-<p align="center">
-  <img src="docs/assets/open-prompt-archive-visual.png"
-       alt="Open Prompt Archive visual concept"
-       width="100%">
-</p>
-
-> [!CAUTION]
-> The card fields shown inside this illustration are **decorative example metadata**, not canonical release metadata. Use the verified dataset facts, manifests, schemas, and source reviews in this repository for authoritative licensing and provenance information.
-
----
-
 ## 🧾 Citation
 
 For research, evaluation, tooling, or downstream datasets, use [`CITATION.cff`](CITATION.cff).
@@ -374,4 +370,3 @@ Individual upstream attribution obligations still apply to reused records where 
 ## Maintainer
 
 Maintained by **Carnaverone Studio**.
-
