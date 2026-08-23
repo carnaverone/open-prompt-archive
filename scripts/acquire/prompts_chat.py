@@ -3,7 +3,8 @@
 
 The destination is retained only if the downloaded bytes match the byte length
 and Git blob SHA-1 already pinned in data/sources/prompts-chat/source.lock.json.
-No authentication, mirror fallback, or floating branch is supported.
+No authentication, mirror fallback, floating branch, or silent overwrite is
+supported.
 """
 
 from __future__ import annotations
@@ -140,18 +141,21 @@ def download_locked_bytes(raw_url: str, timeout: float) -> bytes:
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             final_url = response.geturl()
-            parsed = urllib.parse.urlparse(final_url)
-            if parsed.scheme != "https" or parsed.hostname != ALLOWED_HOST:
+            if final_url != raw_url:
                 raise AcquisitionFailure(
-                    f"Unexpected download redirect outside {ALLOWED_HOST}: {final_url!r}."
+                    "Pinned source unexpectedly redirected. Refusing to widen the "
+                    f"acquisition boundary: {final_url!r}."
                 )
             data = response.read()
+    except AcquisitionFailure:
+        raise
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         raise AcquisitionFailure(f"Pinned source download failed: {exc}") from exc
     return data
 
 
 def write_exclusive(path: Path, data: bytes) -> None:
+    """Atomically install bytes without overwriting a destination, even on a race."""
     path = path.resolve()
     if path.exists():
         raise AcquisitionFailure(f"Destination already exists: {path}")
@@ -164,12 +168,20 @@ def write_exclusive(path: Path, data: bytes) -> None:
             handle.write(data)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temp_path, path)
-    except Exception:
         try:
-            temp_path.unlink(missing_ok=True)
-        finally:
-            raise
+            os.link(temp_path, path)
+        except FileExistsError as exc:
+            raise AcquisitionFailure(
+                f"Destination appeared during acquisition; refusing overwrite: {path}"
+            ) from exc
+        except OSError as exc:
+            raise AcquisitionFailure(
+                f"Cannot atomically install verified acquisition at {path}: {exc}"
+            ) from exc
+        temp_path.unlink()
+    except Exception:
+        temp_path.unlink(missing_ok=True)
+        raise
 
 
 def main() -> int:
