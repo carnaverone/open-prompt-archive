@@ -1,0 +1,73 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node / JS tooling
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+coverage/
+
+# Build / generated artifacts
+build/
+dist/
+out/
+.tmp/
+tmp/
+.cache/
+.generated/
+generated/
+
+# Local databases / indexes
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+
+# Large/generated exports
+exports/
+*.parquet
+*.arrow
+
+# Download/cache staging
+.downloads/
+.staging/
+.quarantine/
+
+# Logs
+*.log
+logs/
+
+# Local notebooks
+.ipynb_checkpoints/
+
+# Do NOT ignore canonical source data under data/.
+# Dataset files intended for publication should be committed deliberately.
