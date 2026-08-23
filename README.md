@@ -12,6 +12,8 @@ The project is designed to cover **image prompts, video prompts, LLM prompts, AI
 
 Source review is operational. No large versioned prompt corpus has been released yet. Source approval and dataset publication are deliberately separate gates: an approved source must still pass deterministic normalization, content review, schema validation, manifest generation, exact counting, and artifact checksum verification before publication.
 
+The first `prompts.chat` importer and acquisition lock now exist, but no prompt count or dataset release is claimed until the complete pinned upstream file can be processed and the resulting artifacts pass the publication checklist.
+
 No prompt count, model-compatibility claim, license claim, or verification status should be published unless repository evidence supports it.
 
 ## Reviewed sources
@@ -21,7 +23,7 @@ No prompt count, model-compatibility claim, license claim, or verification statu
 | [prompts.chat](sources/reviews/prompts-chat.md) | **Approved** | `CC0-1.0` | Prompt text/data only |
 | [DiffusionDB](sources/reviews/diffusiondb.md) | **Approved** | `CC0-1.0` | Prompt text + selected generation metadata; media excluded |
 | [BigScience PromptSource / P3](sources/reviews/bigscience-promptsource.md) | **Approved** | `Apache-2.0` | Prompt templates + prompt-specific metadata; underlying datasets excluded |
-| [Wuyoscar GPT-Image2-Skill](sources/reviews/wuyoscar-gpt-image2-skill.md) | **Approved — restricted subset** | `MIT` | Gallery entries explicitly marked `Original`; external-source entries/media excluded |
+| [Wuyoscar GPT-Image2-Skill](sources/reviews/wuyoscar-gpt-image2-skill.md) | **Review reopened** | `MIT` repository license | No prompt publication while `Curated` / `Original` provenance semantics are re-verified |
 | [freestylefly / awesome-gpt-image-2](sources/reviews/freestylefly-awesome-gpt-image-2.md) | **Quarantined** | `MIT` repository license | No bulk import; external/community provenance unresolved |
 | [YouMind — Nano Banana Pro](sources/reviews/youmind-nano-banana-pro.md) | **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import; license scope unresolved |
 | [YouMind — GPT Image 2](sources/reviews/youmind-gpt-image-2.md) | **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import; license scope unresolved |
@@ -29,7 +31,7 @@ No prompt count, model-compatibility claim, license claim, or verification statu
 
 The canonical machine-readable registry is [`sources/sources.yaml`](sources/sources.yaml).
 
-`Quarantined` is an Open Prompt Archive review state, **not an allegation that an upstream project is unlawful or that its license is invalid**. It means only that the evidence reviewed so far is insufficient for this archive to redistribute the intended corpus under its provenance standard.
+`Review` and `Quarantined` are Open Prompt Archive curation states, **not allegations that an upstream project is unlawful or that its repository license is invalid**. They describe whether this archive currently has enough evidence to redistribute the intended prompt scope under its provenance standard.
 
 ## Scope
 
@@ -65,9 +67,9 @@ SOURCE PROPOSAL
    ↓
 LICENSE + PROVENANCE REVIEW
    ↓
-┌────────────┬─────────────┬──────────────┐
-│ APPROVED   │ QUARANTINED │ REJECTED     │
-└─────┬──────┴─────────────┴──────────────┘
+┌────────────┬──────────┬─────────────┬──────────────┐
+│ APPROVED   │ REVIEW   │ QUARANTINED │ REJECTED     │
+└─────┬──────┴──────────┴─────────────┴──────────────┘
       ↓
 SOURCE-SPECIFIC PUBLICATION CONTRACT
       ↓
@@ -82,7 +84,7 @@ MANIFEST + COUNTS + SHA-256
 VERSIONED PUBLICATION
 ```
 
-A quarantined or rejected source may remain documented at metadata/review level, but its unapproved prompt corpus must not be committed to `data/` or attached to a release.
+Only `approved` source scopes proceed downward into prompt publication. A source in `review`, `quarantined`, or `rejected` state may remain documented at metadata/review level, but its unapproved prompt corpus must not be committed to `data/` or attached to a release.
 
 ## Core policies
 
@@ -96,7 +98,7 @@ A quarantined or rejected source may remain documented at metadata/review level,
 
 ## Canonical data organization
 
-Prompt data is partitioned **by approved source** so licensing and provenance boundaries stay auditable.
+Prompt data and source-specific publication/review metadata are partitioned **by source** so licensing and provenance boundaries stay auditable.
 
 ```text
 data/
@@ -104,12 +106,12 @@ data/
     ├── prompts-chat/
     ├── diffusiondb/
     ├── bigscience-promptsource/
-    └── wuyoscar-gpt-image2-skill/
+    └── wuyoscar-gpt-image2-skill/   # review hold; metadata only
 ```
 
-Each source directory begins with a publication contract describing the exact reviewed revision, eligible records, field mapping, exclusions, license handling, and publication gate.
+Approved source directories begin with a publication contract describing the exact reviewed revision, eligible records, field mapping, exclusions, license handling, and publication gate. A directory for a source whose review has been reopened may instead contain a hold notice and must not contain approved prompt shards.
 
-Current contracts:
+Current source-specific notes/contracts:
 
 - [`data/sources/prompts-chat/README.md`](data/sources/prompts-chat/README.md)
 - [`data/sources/diffusiondb/README.md`](data/sources/diffusiondb/README.md)
@@ -117,6 +119,14 @@ Current contracts:
 - [`data/sources/wuyoscar-gpt-image2-skill/README.md`](data/sources/wuyoscar-gpt-image2-skill/README.md)
 
 Model/modality views and formats such as Parquet, SQLite/FTS, or search indexes may later be generated as **derived distributions**. They do not replace the canonical source/provenance model.
+
+## First deterministic importer
+
+The first source-specific importer is [`scripts/import/prompts_chat.py`](scripts/import/prompts_chat.py).
+
+It verifies the pinned `prompts.chat` Git blob before parsing, preserves prompt text, freezes a deterministic SHA-256 record-ID algorithm, validates generated records, separates local audit/review material from publication candidates, computes artifact counts/checksums, and refuses `published` status while review candidates remain unresolved.
+
+The exact upstream acquisition lock is [`data/sources/prompts-chat/source.lock.json`](data/sources/prompts-chat/source.lock.json). Curation tooling is documented in [`scripts/README.md`](scripts/README.md).
 
 ## Canonical record model
 
@@ -168,6 +178,7 @@ Open Prompt Archive is intentionally **multi-license at the data layer**.
 - Attribution, notice, and share-alike obligations remain attached to the relevant imported records.
 - A software license on an aggregator is not automatically treated as a license for externally sourced prompt content.
 - Record-level or subset-level approval is preferred when a mixed-origin source exposes a reliable provenance boundary.
+- Labels such as `curated`, `edited`, or `rewritten` do not by themselves prove original authorship or relicensing authority.
 - Associated media is excluded by default.
 - SPDX identifiers are used where practical; repository-authored files also use REUSE-compatible metadata.
 
@@ -180,7 +191,7 @@ Contributions are welcome, but the project is **source-first rather than prompt-
 Useful contributions include:
 
 - proposing a clearly licensed prompt source;
-- providing stronger license evidence for a candidate or quarantined source;
+- providing stronger license evidence for a candidate, review, or quarantined source;
 - identifying a mechanically verifiable open subset of a mixed-origin source;
 - correcting attribution or provenance;
 - reporting malformed/duplicate records;
@@ -217,11 +228,13 @@ open-prompt-archive/
 ├── REUSE.toml
 │
 ├── data/
-│   └── sources/           # approved source-specific publication areas
+│   └── sources/           # source-partitioned publication/review areas
 ├── sources/
 │   ├── sources.yaml       # canonical review registry
 │   └── reviews/           # human-readable evidence and decisions
 ├── schema/                # prompt/source/manifest contracts
+├── scripts/               # deterministic curation tooling
+├── tests/                 # curation contract tests
 ├── docs/                  # curation and dataset policies
 └── .github/               # contribution forms and repository guidance
 ```
