@@ -53,7 +53,7 @@
           "format": "uri"
         },
         "owner": {
-          "type": "string",
+          "type": ["string", "null"],
           "minLength": 1
         },
         "source_type": {
@@ -93,7 +93,25 @@
             "attribution_text": {
               "type": ["string", "null"]
             }
-          }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "attribution_required": {"const": true}
+                }
+              },
+              "then": {
+                "required": ["attribution_text"],
+                "properties": {
+                  "attribution_text": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          ]
         },
         "scope": {
           "type": "string",
@@ -121,7 +139,40 @@
         "notes": {
           "type": ["string", "null"]
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {"const": "approved"}
+            }
+          },
+          "then": {
+            "required": ["reviewed_at"],
+            "properties": {
+              "owner": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_at": {
+                "type": "string",
+                "format": "date"
+              },
+              "media_mirroring": {
+                "enum": ["not-allowed", "approved", "not-applicable"]
+              },
+              "license": {
+                "properties": {
+                  "scope_verified": {"const": true},
+                  "spdx": {
+                    "not": {"const": "UNKNOWN"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }
