@@ -8,11 +8,23 @@ The archive is intended to cover **image prompts, video prompts, LLM prompts, AI
 
 ## Status
 
-**Pre-release / curation bootstrap.**
+**Pre-release / active curation.**
 
-The repository is establishing its dataset policies, source-review process, contribution workflow, and canonical schemas before publishing a large prompt corpus. A source is not considered approved merely because it is public, popular, or listed as a candidate.
+Source review is now operational, but no large versioned prompt corpus has been released yet. The project deliberately separates **source approval** from **dataset publication**: an approved source must still pass deterministic normalization, schema validation, content review, manifest generation, and artifact-integrity checks before its prompts are published here.
 
-No prompt-count, license status, model compatibility, or verification claim should be published unless it is backed by the repository data.
+No prompt-count, model-compatibility, license, or verification claim should be published unless it is backed by repository evidence.
+
+## Current source review status
+
+| Source | Status | Prompt-data license | Open Prompt Archive scope |
+|---|---|---|---|
+| [prompts.chat](sources/reviews/prompts-chat.md) | **Approved** | `CC0-1.0` | Prompt text/data only |
+| [DiffusionDB](sources/reviews/diffusiondb.md) | **Approved** | `CC0-1.0` | Prompt text + selected generation metadata; media excluded |
+| [YouMind — Nano Banana Pro](sources/reviews/youmind-nano-banana-pro.md) | **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import; corpus license scope unresolved |
+| [YouMind — GPT Image 2](sources/reviews/youmind-gpt-image-2.md) | **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import; corpus license scope unresolved |
+| [YouMind — Seedance 2](sources/reviews/youmind-seedance-2.md) | **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import; corpus license scope unresolved |
+
+The canonical machine-readable registry is [`sources/sources.yaml`](sources/sources.yaml). `Quarantined` is an internal curation state, not an allegation about the legality of an upstream project; it means only that this archive has not verified enough evidence to redistribute the intended corpus under its own provenance standard.
 
 ## Scope
 
@@ -53,26 +65,53 @@ LICENSE + PROVENANCE REVIEW
 │ APPROVED   │ QUARANTINED │ REJECTED     │
 └─────┬──────┴─────────────┴──────────────┘
       ↓
-IMPORT
+IMPORT CONTRACT
       ↓
 NORMALIZE
       ↓
-VALIDATE
+CONTENT REVIEW
       ↓
-DEDUPLICATE WITHOUT LOSING PROVENANCE
+SCHEMA VALIDATION
+      ↓
+MANIFEST + CHECKSUMS
       ↓
 PUBLISH
 ```
 
 A quarantined or rejected source may be documented at the metadata/review level, but its prompt corpus must not be redistributed by this repository while rights remain unresolved.
 
-See:
+Core curation policies:
 
 - [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md)
 - [`docs/PROVENANCE_POLICY.md`](docs/PROVENANCE_POLICY.md)
 - [`docs/SOURCE_REVIEW_PROCESS.md`](docs/SOURCE_REVIEW_PROCESS.md)
 - [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md)
 - [`docs/TAKEDOWN_POLICY.md`](docs/TAKEDOWN_POLICY.md)
+- [`docs/DISTRIBUTION_POLICY.md`](docs/DISTRIBUTION_POLICY.md)
+- [`docs/PUBLICATION_CHECKLIST.md`](docs/PUBLICATION_CHECKLIST.md)
+
+## Dataset organization
+
+Canonical prompt data is partitioned **by approved source**, not primarily by model or modality. This keeps licensing and provenance boundaries auditable.
+
+```text
+data/
+└── sources/
+    ├── prompts-chat/
+    │   ├── README.md
+    │   ├── manifest.yaml        # when a snapshot is staged/published
+    │   └── part-*.jsonl         # when Git-friendly
+    └── diffusiondb/
+        ├── README.md
+        └── manifest.yaml        # large snapshots distributed as release assets
+```
+
+Modality views such as image/video/LLM, and analytical formats such as Parquet or SQLite, may later be generated as **derived distributions**. They must not replace the canonical provenance model.
+
+Source-specific publication contracts currently exist for:
+
+- [`data/sources/prompts-chat/README.md`](data/sources/prompts-chat/README.md)
+- [`data/sources/diffusiondb/README.md`](data/sources/diffusiondb/README.md)
 
 ## Dataset record model
 
@@ -111,8 +150,9 @@ Example:
 
 Canonical contracts:
 
-- [`schema/prompt.schema.json`](schema/prompt.schema.json) — prompt records;
-- [`schema/source.schema.json`](schema/source.schema.json) — source registry.
+- [`schema/prompt.schema.json`](schema/prompt.schema.json) — published prompt records;
+- [`schema/source.schema.json`](schema/source.schema.json) — source registry;
+- [`schema/manifest.schema.json`](schema/manifest.schema.json) — published/staged source snapshot manifests.
 
 See [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) for the relationship between source-level review and record-level data.
 
@@ -136,7 +176,7 @@ Contributions are welcome, but the default contribution path is **source-first r
 Good contributions include:
 
 - proposing a clearly licensed prompt dataset or repository;
-- supplying stronger license evidence for a candidate source;
+- supplying stronger license evidence for a candidate or quarantined source;
 - correcting attribution or provenance;
 - reporting a duplicate or malformed record;
 - reporting content that should be removed or reviewed;
@@ -145,6 +185,14 @@ Good contributions include:
 Do **not** submit a copied prompt dump merely because the material is publicly accessible.
 
 Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). GitHub issue forms are provided for source proposals, license/provenance corrections, data-quality reports, and removal/rights review.
+
+## Distribution and releases
+
+Small, reviewable prompt datasets may be stored directly as deterministic JSONL shards in Git. Very large source snapshots should keep manifests, reviews, checksums, and compact metadata in Git while publishing immutable prompt-only artifacts through versioned GitHub Releases.
+
+This prevents a useful GitHub repository from turning into a multi-gigabyte clone while still allowing large open prompt datasets to be distributed reproducibly.
+
+See [`docs/DISTRIBUTION_POLICY.md`](docs/DISTRIBUTION_POLICY.md).
 
 ## Repository structure
 
@@ -164,12 +212,13 @@ open-prompt-archive/
 ├── REUSE.toml
 │
 ├── data/                  # approved redistributable prompt data only
+│   └── sources/           # source-partitioned canonical publication area
 ├── sources/
-│   ├── sources.yaml       # source registry
-│   └── reviews/           # human-readable source review records
-├── schema/                # machine-readable dataset contracts
+│   ├── sources.yaml       # canonical source registry
+│   └── reviews/           # evidence-based source review records
+├── schema/                # prompt/source/manifest contracts
 ├── docs/                  # policies and curation documentation
-└── .github/               # contribution forms and supporting agent/repo config
+└── .github/               # contribution forms and supporting repo/agent config
 ```
 
 ## Dataset card
