@@ -8,7 +8,7 @@
 #   candidate | review | approved | quarantined | rejected
 #
 # Only approved sources may contribute prompt content to data/.
-# Candidate/quarantined/rejected sources may retain metadata and review notes,
+# Candidate/review/quarantined/rejected sources may retain metadata and review notes,
 # but their unapproved prompt corpus must not be redistributed here.
 
 schema_version: 1
@@ -76,24 +76,24 @@ sources:
     notes: "Approved template-only scope. External dataset examples and dataset licenses remain independent and must not be imported through template rendering."
 
   - source_id: wuyoscar-gpt-image2-skill
-    name: Wuyoscar GPT-Image2-Skill original gallery subset
+    name: Wuyoscar GPT-Image2-Skill gallery
     canonical_url: https://github.com/wuyoscar/GPT-Image2-Skill
     owner: Wuyoscar and repository contributors
     source_type: github-repository
-    status: approved
+    status: review
     license:
       spdx: MIT
       evidence_url: https://github.com/wuyoscar/GPT-Image2-Skill/blob/068dd9e24aadc8731e46f38548ca4dcd94515d35/LICENSE
-      scope_verified: true
+      scope_verified: false
       attribution_required: true
-      attribution_text: "Wuyoscar / GPT-Image2-Skill; preserve the MIT copyright and permission notice."
-    scope: "Gallery prompt entries explicitly marked Original and not attributed to an outside source; outside-source entries and all images/media excluded."
+      attribution_text: "Wuyoscar / GPT-Image2-Skill; preserve the MIT copyright and permission notice for material ultimately verified as covered."
+    scope: "Gallery prompt provenance is under renewed record-level review. Explicit outside-source entries are excluded; the current Curated label is not treated as proof of repository-original authorship. Images/media excluded."
     reviewed_revision: 068dd9e24aadc8731e46f38548ca4dcd94515d35
     discovered_at: 2026-08-23
     reviewed_at: 2026-08-23
     media_mirroring: not-allowed
     review_file: sources/reviews/wuyoscar-gpt-image2-skill.md
-    notes: "Approved only through a record-level provenance filter using the repository's documented Original-vs-outside-source convention. Ambiguous records must be excluded."
+    notes: "Prior restricted approval was reopened after the pinned canonical gallery showed Curated entries while CONTRIBUTING.md documents Original as the original-entry signal. Curated can mean repo-curated or substantially reworked, so the mechanical rights boundary requires stronger evidence before any prompt publication."
 
   - source_id: freestylefly-awesome-gpt-image-2
     name: freestylefly / awesome-gpt-image-2
