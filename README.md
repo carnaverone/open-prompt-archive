@@ -1,55 +1,217 @@
-# Open Prompt Archive
+<p align="center">
+  <strong>OPEN PROMPT ARCHIVE</strong>
+</p>
 
-> A curated open dataset of AI prompts with verified licensing, provenance, and attribution.
+<p align="center">
+  <strong>Open AI prompt datasets with verified licensing, provenance, privacy review, and reproducible releases.</strong>
+</p>
 
-**Open Prompt Archive** is a public, source-driven archive for redistributable AI prompts. Third-party prompt data enters the archive only when its redistribution basis can be verified and its source, license, attribution, scope, and provenance can be preserved.
+<p align="center">
+  <a href="https://github.com/carnaverone/open-prompt-archive/releases/tag/dataset-v0.1.0"><img alt="Dataset v0.1.0" src="https://img.shields.io/badge/dataset-v0.1.0-2563eb"></a>
+  <img alt="2,134 prompts" src="https://img.shields.io/badge/prompts-2%2C134-16a34a">
+  <img alt="CC0-1.0 data license" src="https://img.shields.io/badge/data-CC0--1.0-64748b">
+  <img alt="Validation PASS" src="https://img.shields.io/badge/validation-PASS-16a34a">
+  <img alt="JSONL format" src="https://img.shields.io/badge/format-JSONL-f59e0b">
+</p>
 
-The project is designed to cover **image prompts, video prompts, LLM prompts, AI agent prompts, coding prompts, audio prompts, 3D prompts, and other generative-AI prompt formats** without turning public availability into an assumption of permission.
+<p align="center">
+  <a href="#-quick-start">Quick Start</a> ·
+  <a href="data/sources/prompts-chat/part-00000.jsonl">Browse Data</a> ·
+  <a href="https://github.com/carnaverone/open-prompt-archive/releases/tag/dataset-v0.1.0">Latest Release</a> ·
+  <a href="DATASET_CARD.md">Dataset Card</a> ·
+  <a href="sources/sources.yaml">Source Registry</a> ·
+  <a href="CONTRIBUTING.md">Contribute</a>
+</p>
 
-## Status
+---
 
-**Dataset v0.1.0 / active curation.**
+> [!IMPORTANT]
+> **Publicly visible does not mean redistributable.** Open Prompt Archive publishes prompt data only after the relevant source scope, license basis, provenance, and publication artifact have been reviewed and verified.
 
-The first canonical Open Prompt Archive dataset snapshot is `prompts-chat` v0.1.0, derived from the pinned upstream revision `25cb43d6e61974e66f3650cbc5a65482bc592552`.
+## 📦 Dataset at a glance
 
-Verified publication facts:
+| Metric | Current release |
+|---|---:|
+| Dataset version | **0.1.0** |
+| Canonical prompts | **2,134** |
+| Published sources | **1** |
+| Current published source | `prompts.chat` |
+| Effective data license | `CC0-1.0` |
+| Format | `JSONL` |
+| Canonical shard size | **7,736,751 bytes** |
+| Canonical shard SHA-256 | `ba8377b874c621e44d8c9b321c1ef1f95d7565867186b5e5fb8c2f908402a77c` |
+| Pending content review | **0** |
+| Public contributor email identifiers | **0** |
+| Publication validation | ✅ **PASS** |
 
-- **2,134 canonical prompt records**;
-- effective prompt-data license: `CC0-1.0`;
-- normalization: `prompts-chat-v1`;
-- one JSONL shard, **7,736,751 bytes**;
-- shard SHA-256: `ba8377b874c621e44d8c9b321c1ef1f95d7565867186b5e5fb8c2f908402a77c`;
-- 10 heuristic content-review candidates, all explicitly reviewed and included;
-- 1,069 records received contributor privacy minimization, removing 1,072 email identifiers from public `source.author`;
-- zero unresolved review candidates.
+**Release:** [`dataset-v0.1.0`](https://github.com/carnaverone/open-prompt-archive/releases/tag/dataset-v0.1.0)  
+**Reviewed upstream revision:** `25cb43d6e61974e66f3650cbc5a65482bc592552`
 
-Source approval and dataset publication remain separate gates. Other approved sources are not necessarily published yet, and no count, compatibility claim, license claim, or verification status should be presented without repository evidence.
+---
 
-## Reviewed sources
+## ⚡ Quick Start
 
-| Source | Status | Effective / claimed license | Approved archive scope |
+### Download the current canonical shard
+
+```bash
+curl -L \
+  https://raw.githubusercontent.com/carnaverone/open-prompt-archive/main/data/sources/prompts-chat/part-00000.jsonl \
+  -o prompts.jsonl
+```
+
+### Inspect a record
+
+```bash
+head -n 1 prompts.jsonl | jq
+```
+
+### Read the dataset with Python
+
+```python
+import json
+
+with open("prompts.jsonl", encoding="utf-8") as f:
+    for line in f:
+        record = json.loads(line)
+        print(record["id"])
+        print(record["prompt"])
+        break
+```
+
+### Verify the published artifact
+
+```bash
+echo "ba8377b874c621e44d8c9b321c1ef1f95d7565867186b5e5fb8c2f908402a77c  prompts.jsonl" \
+  | sha256sum --check
+```
+
+---
+
+## 🔎 What makes this archive different?
+
+| | Open Prompt Archive guarantees |
+|---|---|
+| 🛡️ **License scope** | Published records come only from source scopes with evidence-backed redistribution terms. |
+| 🔗 **Provenance** | Records retain a traceable source identity and reviewed source revision. |
+| 📌 **Pinned inputs** | Imports are tied to exact upstream revisions or snapshots. |
+| 🧬 **Stable records** | Source-specific deterministic normalization and IDs make releases reproducible. |
+| 🔐 **Privacy review** | Unnecessary contributor email identifiers are removed from public metadata. |
+| ✅ **Validation** | Records, manifests, counts, byte sizes, and checksums are generated from real artifacts. |
+| 🧾 **Auditability** | Human-readable reviews, machine-readable manifests, and source locks stay in the repository. |
+
+> [!NOTE]
+> Carnaverone Studio first-party, private, and proprietary prompt collections are intentionally excluded from this public archive.
+
+---
+
+## 🧩 What is in a record?
+
+The canonical schema requires an ID, prompt, type, source, license, and provenance block. Optional fields can describe titles, models, tags, language, templates, and associated media.
+
+```json
+{
+  "id": "prompts-chat:...",
+  "prompt": "Preserved upstream prompt text...",
+  "type": "llm",
+  "source": {
+    "source_id": "prompts-chat",
+    "name": "prompts.chat",
+    "url": "https://github.com/f/prompts.chat",
+    "author": null,
+    "revision": "25cb43d6e61974e66f3650cbc5a65482bc592552"
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "attribution_required": false,
+    "scope_verified": true
+  },
+  "provenance": {
+    "retrieved_at": "2026-08-23",
+    "verified": true,
+    "modified": false
+  }
+}
+```
+
+See [`schema/prompt.schema.json`](schema/prompt.schema.json) and [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) for the complete contract.
+
+---
+
+## 🧭 How data becomes a release
+
+<p align="center">
+  <img src="docs/assets/open-prompt-archive-pipeline.png"
+       alt="Open Prompt Archive publication pipeline"
+       width="100%">
+</p>
+
+**Discover → verify license & provenance → pin source revision → normalize → review content & privacy → validate → manifest & checksum → publish**
+
+Only an **approved source scope** can move into a published prompt snapshot.
+
+---
+
+## 📚 Source status
+
+| Source | Archive state | Effective / claimed license | Published scope |
 |---|---|---|---|
-| [prompts.chat](sources/reviews/prompts-chat.md) | **Approved** | `CC0-1.0` | Prompt text/data only |
-| [DiffusionDB](sources/reviews/diffusiondb.md) | **Approved** | `CC0-1.0` | Prompt text + selected generation metadata; media excluded |
-| [BigScience PromptSource / P3](sources/reviews/bigscience-promptsource.md) | **Approved** | `Apache-2.0` | Prompt templates + prompt-specific metadata; underlying datasets excluded |
-| [Wuyoscar GPT-Image2-Skill](sources/reviews/wuyoscar-gpt-image2-skill.md) | **Review reopened** | `MIT` repository license | No prompt publication while `Curated` / `Original` provenance semantics are re-verified |
-| [freestylefly / awesome-gpt-image-2](sources/reviews/freestylefly-awesome-gpt-image-2.md) | **Quarantined** | `MIT` repository license | No bulk import; external/community provenance unresolved |
-| [YouMind — Nano Banana Pro](sources/reviews/youmind-nano-banana-pro.md) | **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import; license scope unresolved |
-| [YouMind — GPT Image 2](sources/reviews/youmind-gpt-image-2.md) | **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import; license scope unresolved |
-| [YouMind — Seedance 2](sources/reviews/youmind-seedance-2.md) | **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import; license scope unresolved |
+| [`prompts.chat`](sources/reviews/prompts-chat.md) | 🟢 **Published** | `CC0-1.0` | **2,134 prompt records** |
+| [`DiffusionDB`](sources/reviews/diffusiondb.md) | 🟡 **Approved** | `CC0-1.0` | Prompt text + selected generation metadata; media excluded |
+| [`BigScience PromptSource / P3`](sources/reviews/bigscience-promptsource.md) | 🟡 **Approved** | `Apache-2.0` | Prompt templates + prompt-specific metadata; underlying datasets excluded |
+| [`Wuyoscar GPT-Image2-Skill`](sources/reviews/wuyoscar-gpt-image2-skill.md) | 🔵 **Review reopened** | `MIT` repository license | No prompt publication while provenance semantics are re-verified |
+| [`freestylefly / awesome-gpt-image-2`](sources/reviews/freestylefly-awesome-gpt-image-2.md) | ⚪ **Quarantined** | `MIT` repository license | No bulk import; external/community provenance unresolved |
+| YouMind collections | ⚪ **Quarantined** | `CC-BY-4.0` claimed upstream | No bulk import while license scope remains unresolved |
 
 The canonical machine-readable registry is [`sources/sources.yaml`](sources/sources.yaml).
 
-`Review` and `Quarantined` are Open Prompt Archive curation states, **not allegations that an upstream project is unlawful or that its repository license is invalid**. They describe whether this archive currently has enough evidence to redistribute the intended prompt scope under its provenance standard.
+`Review` and `Quarantined` are curation states, not allegations about upstream projects. They indicate whether this archive currently has sufficient evidence to redistribute the intended prompt scope.
 
-## Scope
+---
 
-Open Prompt Archive is for **third-party prompt collections that can be redistributed under verified terms**.
+## 🤝 Contribute
+
+Open Prompt Archive is **source-first, not prompt-dump-first**.
+
+Useful contributions include:
+
+- proposing a clearly licensed prompt source;
+- providing stronger license or provenance evidence;
+- identifying a mechanically verifiable open subset of a mixed-origin source;
+- correcting attribution or provenance;
+- reporting malformed or duplicate records;
+- requesting removal or rights review;
+- improving dataset tooling, schemas, or documentation.
+
+Do **not** submit a copied prompt dump merely because it is publicly accessible.
+
+**Start here:** [`CONTRIBUTING.md`](CONTRIBUTING.md)
+
+---
+
+## 📖 Documentation
+
+| Need | Document |
+|---|---|
+| Dataset composition, limitations, intended use | [`DATASET_CARD.md`](DATASET_CARD.md) |
+| Licensing rules | [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md) |
+| Provenance requirements | [`docs/PROVENANCE_POLICY.md`](docs/PROVENANCE_POLICY.md) |
+| Source review workflow | [`docs/SOURCE_REVIEW_PROCESS.md`](docs/SOURCE_REVIEW_PROCESS.md) |
+| Content review | [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md) |
+| Removal / rights review | [`docs/TAKEDOWN_POLICY.md`](docs/TAKEDOWN_POLICY.md) |
+| Distribution architecture | [`docs/DISTRIBUTION_POLICY.md`](docs/DISTRIBUTION_POLICY.md) |
+| Publication gates | [`docs/PUBLICATION_CHECKLIST.md`](docs/PUBLICATION_CHECKLIST.md) |
+| Canonical data model | [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) |
+| Notice and attribution | [`NOTICE.md`](NOTICE.md) |
+
+---
+
+<details>
+<summary><strong>🎯 Scope</strong></summary>
 
 ### In scope
 
 - Prompt datasets with explicit redistribution rights.
-- Openly licensed repositories whose license scope actually covers the prompt content being imported.
+- Openly licensed repositories whose license scope covers the imported prompt content.
 - Public-domain prompt collections with credible provenance.
 - Evidence-backed subsets of mixed-origin repositories when eligibility can be determined reliably at record level.
 - Source metadata, attribution, revision pins, license evidence, and review records.
@@ -58,168 +220,99 @@ Open Prompt Archive is for **third-party prompt collections that can be redistri
 
 ### Out of scope
 
-- Carnaverone Studio first-party, private, or proprietary prompt collections.
+- Carnaverone Studio private or proprietary prompt collections.
 - Blind scraping of prompt websites or social platforms.
-- Publicly visible prompts with unknown or ambiguous redistribution rights.
+- Publicly visible prompts with unknown redistribution rights.
 - Paywalled, private, leaked, access-controlled, or credential-gated material.
-- Third-party images, video, or audio unless their rights are independently reviewed.
+- Third-party images, video, or audio unless independently rights-reviewed.
 - Silent relicensing of upstream material.
 
-**Carnaverone Studio prompts are intentionally not published in this repository.**
+</details>
 
-## Curation workflow
+<details>
+<summary><strong>🧪 Curation and publication guarantees</strong></summary>
 
-```text
-DISCOVER
-   ↓
-SOURCE PROPOSAL
-   ↓
-LICENSE + PROVENANCE REVIEW
-   ↓
-┌────────────┬──────────┬─────────────┬──────────────┐
-│ APPROVED   │ REVIEW   │ QUARANTINED │ REJECTED     │
-└─────┬──────┴──────────┴─────────────┴──────────────┘
-      ↓
-SOURCE-SPECIFIC PUBLICATION CONTRACT
-      ↓
-NORMALIZE WITHOUT REWRITING PROMPTS
-      ↓
-CONTENT + PRIVACY REVIEW
-      ↓
-SCHEMA VALIDATION
-      ↓
-MANIFEST + COUNTS + SHA-256
-      ↓
-VERSIONED PUBLICATION
-```
+The publication path is intentionally stricter than simple source discovery:
 
-Only `approved` source scopes proceed downward into prompt publication. A source in `review`, `quarantined`, or `rejected` state may remain documented at metadata/review level, but its unapproved prompt corpus must not be committed to `data/` or attached to a release.
+1. identify a candidate source;
+2. review license scope and provenance;
+3. pin the exact reviewed source revision;
+4. define a source-specific publication contract;
+5. normalize without rewriting prompt semantics;
+6. run content and privacy review;
+7. validate every canonical record against the schema;
+8. generate exact counts, byte sizes, manifests, and SHA-256 checksums;
+9. publish an explicit dataset version.
 
-## Core policies
+A source can be **approved** without being **published**. Publication is a separate gate.
 
-- [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md)
-- [`docs/PROVENANCE_POLICY.md`](docs/PROVENANCE_POLICY.md)
-- [`docs/SOURCE_REVIEW_PROCESS.md`](docs/SOURCE_REVIEW_PROCESS.md)
-- [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md)
-- [`docs/TAKEDOWN_POLICY.md`](docs/TAKEDOWN_POLICY.md)
-- [`docs/DISTRIBUTION_POLICY.md`](docs/DISTRIBUTION_POLICY.md)
-- [`docs/PUBLICATION_CHECKLIST.md`](docs/PUBLICATION_CHECKLIST.md)
+The first deterministic importer is [`scripts/import/prompts_chat.py`](scripts/import/prompts_chat.py).  
+The pinned acquisition contract is [`data/sources/prompts-chat/source.lock.json`](data/sources/prompts-chat/source.lock.json).
 
-## Canonical data organization
+</details>
 
-Prompt data and source-specific publication/review metadata are partitioned **by source** so licensing and provenance boundaries stay auditable.
+<details>
+<summary><strong>🗂️ Canonical data organization</strong></summary>
+
+Prompt data is partitioned by source so licensing and provenance boundaries remain auditable.
 
 ```text
 data/
 └── sources/
     ├── prompts-chat/
+    │   ├── README.md
+    │   ├── source.lock.json
+    │   ├── manifest.yaml
+    │   └── part-00000.jsonl
     ├── diffusiondb/
     ├── bigscience-promptsource/
-    └── wuyoscar-gpt-image2-skill/   # review hold; metadata only
+    └── wuyoscar-gpt-image2-skill/
 ```
 
-Approved source directories begin with a publication contract describing the exact reviewed revision, eligible records, field mapping, exclusions, license handling, and publication gate. A directory for a source whose review has been reopened may instead contain a hold notice and must not contain approved prompt shards.
+Source-specific directories define the reviewed revision, eligible scope, field mapping, exclusions, license handling, and publication gates.
 
-Current source-specific notes/contracts:
+Derived formats such as Parquet, SQLite/FTS, or search indexes may be added later, but they do not replace the canonical source/provenance model.
 
-- [`data/sources/prompts-chat/README.md`](data/sources/prompts-chat/README.md)
-- [`data/sources/diffusiondb/README.md`](data/sources/diffusiondb/README.md)
-- [`data/sources/bigscience-promptsource/README.md`](data/sources/bigscience-promptsource/README.md)
-- [`data/sources/wuyoscar-gpt-image2-skill/README.md`](data/sources/wuyoscar-gpt-image2-skill/README.md)
+</details>
 
-Model/modality views and formats such as Parquet, SQLite/FTS, or search indexes may later be generated as **derived distributions**. They do not replace the canonical source/provenance model.
-
-## First deterministic importer
-
-The first source-specific importer is [`scripts/import/prompts_chat.py`](scripts/import/prompts_chat.py).
-
-It verifies the pinned `prompts.chat` Git blob before parsing, preserves prompt text, freezes a deterministic SHA-256 record-ID algorithm, validates generated records, separates local audit/review material from publication candidates, computes artifact counts/checksums, and refuses `published` status while review candidates remain unresolved.
-
-The exact upstream acquisition lock is [`data/sources/prompts-chat/source.lock.json`](data/sources/prompts-chat/source.lock.json). Curation tooling is documented in [`scripts/README.md`](scripts/README.md).
-
-## Canonical record model
-
-Every published record is traceable to an approved source and carries its effective license.
-
-```json
-{
-  "id": "example-source-000001",
-  "prompt": "A cinematic portrait with soft volumetric light...",
-  "type": "image",
-  "models": ["example-model"],
-  "tags": ["portrait", "cinematic"],
-  "source": {
-    "source_id": "example-source",
-    "name": "Example Source",
-    "url": "https://example.org/source",
-    "author": "Example Author",
-    "revision": "<reviewed-revision>"
-  },
-  "license": {
-    "spdx": "CC-BY-4.0",
-    "attribution_required": true,
-    "attribution": "Example Author / Example Source",
-    "scope_verified": true
-  },
-  "provenance": {
-    "retrieved_at": "2026-08-23",
-    "sha256": "<sha256-integrity-hash>",
-    "verified": true,
-    "modified": false
-  }
-}
-```
-
-Machine-readable contracts:
-
-- [`schema/prompt.schema.json`](schema/prompt.schema.json) — published prompt records;
-- [`schema/source.schema.json`](schema/source.schema.json) — source registry;
-- [`schema/manifest.schema.json`](schema/manifest.schema.json) — staged/published source snapshot manifests.
-
-See [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md).
-
-## Licensing model
+<details>
+<summary><strong>⚖️ Licensing model</strong></summary>
 
 Open Prompt Archive is intentionally **multi-license at the data layer**.
 
 - Repository-authored software, schemas, templates, and documentation use the root [`LICENSE`](LICENSE) unless stated otherwise.
 - Imported prompt data retains its effective upstream license.
-- Attribution, notice, and share-alike obligations remain attached to the relevant imported records.
-- A software license on an aggregator is not automatically treated as a license for externally sourced prompt content.
-- Record-level or subset-level approval is preferred when a mixed-origin source exposes a reliable provenance boundary.
-- Labels such as `curated`, `edited`, or `rewritten` do not by themselves prove original authorship or relicensing authority.
-- Associated media is excluded by default.
-- SPDX identifiers are used where practical; repository-authored files also use REUSE-compatible metadata.
+- Attribution and notice obligations remain attached to the relevant records.
+- An aggregator's software license is not automatically treated as a license for externally sourced prompt content.
+- Record-level or subset-level approval is preferred for mixed-origin sources.
+- Associated media is excluded by default unless independently reviewed.
+- SPDX identifiers are used where practical.
+- Repository-authored files use REUSE-compatible metadata.
 
-See [`NOTICE.md`](NOTICE.md) and [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md).
+See [`NOTICE.md`](NOTICE.md), [`REUSE.toml`](REUSE.toml), and [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md).
 
-## Contributions
+</details>
 
-Contributions are welcome, but the project is **source-first rather than prompt-dump-first**.
+<details>
+<summary><strong>📦 Distribution strategy</strong></summary>
 
-Useful contributions include:
+Small, reviewable text datasets may be tracked directly in Git as deterministic JSONL shards.
 
-- proposing a clearly licensed prompt source;
-- providing stronger license evidence for a candidate, review, or quarantined source;
-- identifying a mechanically verifiable open subset of a mixed-origin source;
-- correcting attribution or provenance;
-- reporting malformed/duplicate records;
-- requesting removal or rights review;
-- improving dataset documentation or schemas.
+Very large datasets use:
 
-Do **not** submit a copied prompt dump merely because it is publicly accessible.
+- Git-tracked manifests;
+- reviewed source revisions;
+- checksums and compact metadata;
+- immutable versioned release assets.
 
-Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). Structured GitHub issue forms are available for source proposals, licensing/provenance corrections, data-quality reports, and removal/rights review.
-
-## Distribution
-
-Small, reviewable prompt datasets may be stored in Git as deterministic JSONL shards. Very large source snapshots keep manifests, reviews, checksums, and compact metadata in Git while immutable prompt-only artifacts are published through versioned GitHub Releases.
-
-This keeps the repository useful to humans, GitHub search, and AI tooling without turning every clone into a multi-gigabyte data transfer.
+This keeps normal clones practical while preserving reproducibility.
 
 See [`docs/DISTRIBUTION_POLICY.md`](docs/DISTRIBUTION_POLICY.md).
 
-## Repository structure
+</details>
+
+<details>
+<summary><strong>🏗️ Repository structure</strong></summary>
 
 ```text
 open-prompt-archive/
@@ -227,39 +320,58 @@ open-prompt-archive/
 ├── DATASET_CARD.md
 ├── CITATION.cff
 ├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-├── GOVERNANCE.md
-├── SECURITY.md
 ├── CHANGELOG.md
 ├── LICENSE
-├── LICENSES/
 ├── NOTICE.md
 ├── REUSE.toml
-│
-├── data/
-│   └── sources/           # source-partitioned publication/review areas
-├── sources/
-│   ├── sources.yaml       # canonical review registry
-│   └── reviews/           # human-readable evidence and decisions
-├── schema/                # prompt/source/manifest contracts
+├── data/                  # canonical published/source-partitioned data
+├── sources/               # source registry + human reviews
+├── schema/                # machine-readable contracts
 ├── scripts/               # deterministic curation tooling
 ├── tests/                 # curation contract tests
-├── docs/                  # curation and dataset policies
-└── .github/               # contribution forms and repository guidance
+├── docs/                  # policies, guides, visual assets
+└── .github/               # contribution and repository configuration
 ```
 
-## Dataset card and citation
+</details>
 
-[`DATASET_CARD.md`](DATASET_CARD.md) is the canonical human-readable description of dataset scope, composition, provenance, licensing, limitations, curation, and intended use.
+<details>
+<summary><strong>🏛️ Governance and responsible reuse</strong></summary>
 
-For research, evaluation, tooling, or downstream datasets, use [`CITATION.cff`](CITATION.cff). Individual upstream attribution obligations still apply to the records reused.
+Open Prompt Archive uses lightweight maintainer-led governance. Maintainers review evidence, approve source scopes, publish snapshots, and handle corrections/removals.
 
-## Governance and responsible reuse
+An open license on prompt text does not automatically resolve model terms, trademarks, privacy, publicity rights, personal data, or rights in linked media.
 
-Open Prompt Archive uses lightweight maintainer-led governance. Maintainers are responsible for evidence review, source approval, scope decisions, corrections, and removals. See [`GOVERNANCE.md`](GOVERNANCE.md).
+Open Prompt Archive records licensing and provenance evidence for dataset governance; it does not provide legal advice.
 
-An open license on prompt text does not automatically resolve model terms, trademarks, privacy, publicity rights, personal data, or rights in linked media. Open Prompt Archive records licensing/provenance evidence for dataset governance; it does not provide legal advice.
+See [`GOVERNANCE.md`](GOVERNANCE.md).
+
+</details>
+
+---
+
+## 🖼️ Project visual
+
+<p align="center">
+  <img src="docs/assets/open-prompt-archive-visual.png"
+       alt="Open Prompt Archive visual concept"
+       width="100%">
+</p>
+
+> [!CAUTION]
+> The card fields shown inside this illustration are **decorative example metadata**, not canonical release metadata. Use the verified dataset facts, manifests, schemas, and source reviews in this repository for authoritative licensing and provenance information.
+
+---
+
+## 🧾 Citation
+
+For research, evaluation, tooling, or downstream datasets, use [`CITATION.cff`](CITATION.cff).
+
+Individual upstream attribution obligations still apply to reused records where required.
+
+---
 
 ## Maintainer
 
 Maintained by **Carnaverone Studio**.
+
