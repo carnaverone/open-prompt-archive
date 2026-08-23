@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Propose the source first. Do not paste or attach a large prompt corpus before the source has been reviewed.
+        Propose the source first. Do not paste or attach a large prompt corpus before the source has been reviewed. Missing evidence is acceptable at the candidate stage if it is stated honestly.
 
   - type: input
     id: source_name
@@ -28,9 +28,7 @@ body:
     id: owner
     attributes:
       label: Upstream owner or maintainer
-      description: Organization, project, or person responsible for the source, if known.
-    validations:
-      required: true
+      description: Organization, project, or person responsible for the source, if known. Leave blank if genuinely unknown.
 
   - type: dropdown
     id: source_type
@@ -49,8 +47,8 @@ body:
     id: license
     attributes:
       label: Claimed license
-      description: Use an SPDX identifier when possible. Write UNKNOWN if you have not found one.
-      placeholder: CC-BY-4.0
+      description: Use an SPDX identifier when possible. Write UNKNOWN if you have not found a reliable license declaration.
+      placeholder: CC-BY-4.0 or UNKNOWN
     validations:
       required: true
 
@@ -58,10 +56,8 @@ body:
     id: license_evidence
     attributes:
       label: Direct license evidence
-      description: Link directly to the license file, dataset card, or official licensing statement when possible.
+      description: Link directly to the license file, dataset card, or official licensing statement when available. Leave blank rather than guessing.
       placeholder: https://...
-    validations:
-      required: true
 
   - type: textarea
     id: scope
