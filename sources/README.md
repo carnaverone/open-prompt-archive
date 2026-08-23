@@ -18,6 +18,8 @@ These decisions are intentionally source- and scope-specific. `approved` does no
 
 No prompt corpus from a quarantined source may be committed to `data/` merely because the upstream repository carries an open-license file.
 
+> **Review-status note:** `quarantined` is an Open Prompt Archive curation state, not an allegation that an upstream project is acting unlawfully or that its license declaration is invalid. It means only that this archive has not yet obtained enough evidence to redistribute the intended corpus under its own stricter provenance standard.
+
 ## Source states
 
 - `candidate` — discovered or proposed, not yet reviewed.
