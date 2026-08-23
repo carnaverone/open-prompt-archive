@@ -10,29 +10,107 @@
 # Only approved sources may contribute prompt content to data/.
 # Candidate/quarantined/rejected sources may retain metadata and review notes,
 # but their unapproved prompt corpus must not be redistributed here.
-#
-# Example shape (documentation only; do not uncomment without evidence):
-#
-# - source_id: example-source
-#   name: Example Source
-#   canonical_url: https://example.org/prompts
-#   owner: Example Organization
-#   source_type: dataset-host
-#   status: candidate
-#   license:
-#     spdx: UNKNOWN
-#     evidence_url: null
-#     scope_verified: false
-#     attribution_required: false
-#     attribution_text: null
-#   scope: "Prompt text under review; associated media excluded."
-#   reviewed_revision: null
-#   discovered_at: 2026-08-23
-#   reviewed_at: null
-#   media_mirroring: not-reviewed
-#   review_file: null
-#   notes: null
 
 schema_version: 1
 project: open-prompt-archive
-sources: []
+
+sources:
+  - source_id: prompts-chat
+    name: prompts.chat prompt corpus
+    canonical_url: https://github.com/f/prompts.chat
+    owner: f / prompts.chat
+    source_type: github-repository
+    status: approved
+    license:
+      spdx: CC0-1.0
+      evidence_url: https://github.com/f/prompts.chat/blob/25cb43d6e61974e66f3650cbc5a65482bc592552/LICENSE
+      scope_verified: true
+      attribution_required: false
+      attribution_text: null
+    scope: "Prompt text/data explicitly covered by the upstream CC0 declaration, including prompts.csv, PROMPTS.md, and user-submitted prompt text; software, book content, branding, and media excluded."
+    reviewed_revision: 25cb43d6e61974e66f3650cbc5a65482bc592552
+    discovered_at: 2026-08-23
+    reviewed_at: 2026-08-23
+    media_mirroring: not-allowed
+    review_file: sources/reviews/prompts-chat.md
+    notes: "Approved for prompt text/data only. Provenance should still be preserved even though CC0 does not require attribution."
+
+  - source_id: diffusiondb
+    name: DiffusionDB
+    canonical_url: https://github.com/poloclub/diffusiondb
+    owner: Polo Club / Georgia Institute of Technology
+    source_type: research-dataset
+    status: approved
+    license:
+      spdx: CC0-1.0
+      evidence_url: https://github.com/poloclub/diffusiondb/blob/bf0b01ee26119e16436fa67656ccb611f61be95f/README.md#licensing
+      scope_verified: true
+      attribution_required: false
+      attribution_text: null
+    scope: "Prompt text and prompt-generation metadata from the DiffusionDB dataset; images and other media excluded from Open Prompt Archive."
+    reviewed_revision: bf0b01ee26119e16436fa67656ccb611f61be95f
+    discovered_at: 2026-08-23
+    reviewed_at: 2026-08-23
+    media_mirroring: not-allowed
+    review_file: sources/reviews/diffusiondb.md
+    notes: "Approved prompt-only scope. Import requires content-policy filtering and should omit hashed user identifiers/timestamps unless specifically justified for provenance."
+
+  - source_id: youmind-nano-banana-pro
+    name: YouMind OpenLab — Awesome Nano Banana Pro Prompts
+    canonical_url: https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts
+    owner: YouMind OpenLab
+    source_type: github-repository
+    status: quarantined
+    license:
+      spdx: CC-BY-4.0
+      evidence_url: https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts/blob/7833dde87d4f955c274d95186c4a49836520495f/LICENSE
+      scope_verified: false
+      attribution_required: true
+      attribution_text: "YouMind OpenLab; preserve original-author attribution where present."
+    scope: "Bulk prompt corpus under rights-scope review; associated images/media excluded."
+    reviewed_revision: 7833dde87d4f955c274d95186c4a49836520495f
+    discovered_at: 2026-08-23
+    reviewed_at: 2026-08-23
+    media_mirroring: not-allowed
+    review_file: sources/reviews/youmind-nano-banana-pro.md
+    notes: "Repository claims CC BY 4.0, but the corpus includes community/external-source prompts and current evidence does not verify license authority for every record."
+
+  - source_id: youmind-gpt-image-2
+    name: YouMind OpenLab — Awesome GPT Image 2 Prompts
+    canonical_url: https://github.com/YouMind-OpenLab/awesome-gpt-image-2
+    owner: YouMind OpenLab
+    source_type: github-repository
+    status: quarantined
+    license:
+      spdx: CC-BY-4.0
+      evidence_url: https://github.com/YouMind-OpenLab/awesome-gpt-image-2/blob/e07247aa020acbb4fd2364ccee517684bdbb04d1/LICENSE
+      scope_verified: false
+      attribution_required: true
+      attribution_text: "YouMind OpenLab; preserve original-author attribution where present."
+    scope: "Bulk prompt corpus under rights-scope review; associated images/media excluded."
+    reviewed_revision: e07247aa020acbb4fd2364ccee517684bdbb04d1
+    discovered_at: 2026-08-23
+    reviewed_at: 2026-08-23
+    media_mirroring: not-allowed
+    review_file: sources/reviews/youmind-gpt-image-2.md
+    notes: "Repository claims CC BY 4.0, but the corpus includes community/external-source prompts and current evidence does not verify license authority for every record."
+
+  - source_id: youmind-seedance-2
+    name: YouMind OpenLab — Awesome Seedance 2 Prompts
+    canonical_url: https://github.com/YouMind-OpenLab/awesome-seedance-2-prompts
+    owner: YouMind OpenLab
+    source_type: github-repository
+    status: quarantined
+    license:
+      spdx: CC-BY-4.0
+      evidence_url: https://github.com/YouMind-OpenLab/awesome-seedance-2-prompts/blob/2a263ccb9f5e7f2a9cd6db2e9fce5fe8cf59b98d/LICENSE
+      scope_verified: false
+      attribution_required: true
+      attribution_text: "YouMind OpenLab; preserve original-author attribution where present."
+    scope: "Bulk prompt corpus under rights-scope review; associated videos/images/audio excluded."
+    reviewed_revision: 2a263ccb9f5e7f2a9cd6db2e9fce5fe8cf59b98d
+    discovered_at: 2026-08-23
+    reviewed_at: 2026-08-23
+    media_mirroring: not-allowed
+    review_file: sources/reviews/youmind-seedance-2.md
+    notes: "Repository claims CC BY 4.0, but the corpus is described as community-collected and current evidence does not verify license authority for every record."
