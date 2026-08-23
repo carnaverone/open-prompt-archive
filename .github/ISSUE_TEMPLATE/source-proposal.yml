@@ -1,0 +1,112 @@
+name: Source proposal
+description: Propose a prompt dataset, repository, or collection for licensing and provenance review.
+title: "[Source proposal] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Propose the source first. Do not paste or attach a large prompt corpus before the source has been reviewed.
+
+  - type: input
+    id: source_name
+    attributes:
+      label: Source name
+      placeholder: Example Prompt Dataset
+    validations:
+      required: true
+
+  - type: input
+    id: canonical_url
+    attributes:
+      label: Canonical source URL
+      description: Prefer the original repository, dataset page, or publisher URL rather than a mirror.
+      placeholder: https://...
+    validations:
+      required: true
+
+  - type: input
+    id: owner
+    attributes:
+      label: Upstream owner or maintainer
+      description: Organization, project, or person responsible for the source, if known.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: source_type
+    attributes:
+      label: Source type
+      options:
+        - GitHub repository
+        - Dataset registry / dataset host
+        - Official project website
+        - Academic / research dataset
+        - Other public source
+    validations:
+      required: true
+
+  - type: input
+    id: license
+    attributes:
+      label: Claimed license
+      description: Use an SPDX identifier when possible. Write UNKNOWN if you have not found one.
+      placeholder: CC-BY-4.0
+    validations:
+      required: true
+
+  - type: input
+    id: license_evidence
+    attributes:
+      label: Direct license evidence
+      description: Link directly to the license file, dataset card, or official licensing statement when possible.
+      placeholder: https://...
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Prompt collection scope
+      description: Briefly describe what the source contains, approximate scale if known, and prompt modalities/models represented.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: aggregation
+    attributes:
+      label: Does the source aggregate third-party material?
+      options:
+        - No / appears to be original to the source
+        - Yes
+        - Mixed
+        - Unknown
+    validations:
+      required: true
+
+  - type: input
+    id: revision
+    attributes:
+      label: Revision, release, tag, commit, or snapshot
+      description: Provide an exact version if the source is versioned.
+
+  - type: textarea
+    id: attribution
+    attributes:
+      label: Attribution requirements
+      description: Describe any known creator/source attribution requirements.
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional evidence or uncertainty
+      description: Note conflicting licenses, copied material, media concerns, or anything reviewers should verify.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I am proposing a source for review, not asserting that public availability automatically permits redistribution.
+          required: true
+        - label: I have not pasted or attached a large unreviewed prompt corpus to this issue.
+          required: true
