@@ -22,7 +22,8 @@ The project does not yet publish a versioned prompt corpus. Entries in **Unrelea
 - Published source-review index under `sources/README.md`.
 - Exact `prompts.chat` acquisition lock for reviewed `prompts.csv`: 5,632,658 bytes, Git blob SHA-1 `1bc70c691fb71cc11d8b5031efd0e1ba1b4a0697`.
 - Deterministic `prompts.chat` importer under `scripts/import/prompts_chat.py` with frozen `prompts-chat-v1` record IDs, schema validation, content-review hold logic, JSONL sharding, counts, byte sizes, SHA-256 checksums, and manifest generation.
-- Curation contract tests for Git blob identity, CSV fidelity, stable IDs, review screening, sharding, and schema-valid generated objects.
+- Independent `scripts/validate_publication.py` release gate that revalidates current source approval/revision/license state, resource paths, bytes, SHA-256, JSONL schemas, canonical-ID uniqueness, and manifest counts without trusting importer-generated claims.
+- Curation contract tests for Git blob identity, multiline CSV fidelity, stable IDs, prompt provenance hashes, review screening, sharding, checksum tamper detection, duplicate-ID rejection, and staging-vs-published validation.
 
 ### Changed
 
@@ -35,6 +36,7 @@ The project does not yet publish a versioned prompt corpus. Entries in **Unrelea
 - Added restricted-subset approval as a possible curation strategy for mixed-origin repositories only when a reliable record-level provenance boundary exists.
 - Froze the `prompts.chat` identifier algorithm to SHA-256 over an exact UTF-8 JSON-array canonicalization of all five decoded upstream CSV fields; full 64-character digests are used.
 - Separated importer output into `publish/` and local-only `audit/` so content held for review cannot be mistaken for a publication artifact.
+- Made independent validation of the exact final candidate directory an explicit publication checklist requirement; importer self-validation alone is not sufficient.
 - Reopened the Wuyoscar GPT-Image2-Skill provenance review after deeper inspection showed canonical `Curated` entries alongside explicit outside-source entries while upstream contribution guidance separately uses `Original` for repo-generated examples.
 
 ### Source decisions
