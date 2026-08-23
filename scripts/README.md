@@ -1,12 +1,13 @@
 # Scripts
 
-This directory contains deterministic curation tooling used to ingest and maintain Open Prompt Archive. Tooling is subordinate to the dataset policies and source-review decisions; it must never expand an approved source scope on its own.
+This directory contains deterministic curation tooling used to ingest, verify, and maintain Open Prompt Archive. Tooling is subordinate to dataset policy and source-review decisions; it must never expand an approved source scope on its own.
 
 ## Current tooling
 
 ```text
 scripts/
 ├── requirements.txt
+├── validate_publication.py
 └── import/
     └── prompts_chat.py
 ```
@@ -33,7 +34,7 @@ The importer:
 - refuses to overwrite an existing output directory;
 - refuses `published` status while content-review candidates remain unresolved.
 
-Install its curation dependencies with:
+Install curation dependencies with:
 
 ```bash
 python -m pip install -r scripts/requirements.txt
@@ -64,9 +65,47 @@ build/prompts-chat-2026-08-23/
 
 Only files under `publish/` are candidates for promotion into the canonical dataset. `audit/review-queue.jsonl` may contain records intentionally held for content/privacy/security review and must not be copied into `data/`.
 
+## Independent publication gate
+
+### `validate_publication.py`
+
+Validates the exact directory that is about to become a canonical source snapshot. This is deliberately separate from importers so a bug in an importer cannot make its own output authoritative merely by generating a manifest.
+
+The validator checks:
+
+- `manifest.yaml` against `schema/manifest.schema.json`;
+- the source still exists exactly once in `sources/sources.yaml`;
+- the source is still `approved` and `license.scope_verified: true`;
+- manifest revision equals the registry's currently reviewed revision;
+- manifest effective license equals the source registry license;
+- every declared resource exists beneath the supplied source directory;
+- resource path safety and canonical `data/sources/<source_id>/<name>` locations;
+- exact resource byte counts and SHA-256 checksums;
+- every JSONL line parses and validates against `schema/prompt.schema.json`;
+- every record references the expected source and effective license;
+- canonical IDs are unique across all shards;
+- per-resource and manifest-level record counts reconcile;
+- no undeclared `part-*.jsonl` shard is present.
+
+Validate a staged candidate before promotion:
+
+```bash
+python scripts/validate_publication.py build/prompts-chat-2026-08-23/publish
+```
+
+Validate an already committed canonical source snapshot and require final publication state:
+
+```bash
+python scripts/validate_publication.py \
+  data/sources/prompts-chat \
+  --require-published
+```
+
+A `PASS` from this validator is a necessary technical gate, not a substitute for the human source/license/content review required by `docs/PUBLICATION_CHECKLIST.md`.
+
 ## Review decisions
 
-The optional `--review-decisions` file is a JSON object keyed by deterministic prompt record ID.
+The optional `--review-decisions` file for `prompts_chat.py` is a JSON object keyed by deterministic prompt record ID.
 
 Minimal form:
 
@@ -89,6 +128,18 @@ Documented form:
 ```
 
 Decisions for IDs that are not review candidates on the pinned input are rejected, preventing stale review files from being silently applied to another corpus state.
+
+## Test coverage
+
+Repository tests currently exercise deterministic prompts.chat import primitives and the independent publication validator, including multiline prompt preservation, Git blob identity, stable field-sensitive IDs, prompt SHA-256 provenance, review heuristics, deterministic sharding, checksum tamper detection, duplicate-ID rejection, and the staging-vs-published gate.
+
+With curation dependencies installed:
+
+```bash
+python -m unittest discover -s tests -p 'test_*.py'
+```
+
+Tests use synthetic fixture records. They are not dataset content and must not be promoted into `data/`.
 
 ## General design requirements
 
