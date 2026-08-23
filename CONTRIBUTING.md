@@ -1,81 +1,155 @@
-# Contributing
+# Contributing to Open Prompt Archive
 
 Thank you for helping improve Open Prompt Archive.
 
-The project accepts code, documentation, schema changes, provenance corrections and **third-party prompt datasets whose redistribution basis can be verified**.
+This project welcomes contributions, but prompt data is handled differently from ordinary source-code contributions. The archive is **source-first and license-aware**: public availability alone is not sufficient evidence that prompt content may be redistributed.
 
-## Scope rule
+## Contribution paths
 
-Open Prompt Archive is not the publication location for Carnaverone Studio first-party/private prompt collections.
+### 1. Propose an open prompt source
 
-Do **not** submit or migrate Carnaverone Studio proprietary, internal or first-party prompt libraries into this repository. Those materials belong in separate repositories/products. This archive is intended to index and redistribute eligible third-party open prompt sources with preserved provenance.
+This is the preferred way to expand the archive.
 
-## Before contributing prompt data
+Use the **Source proposal** issue form and provide as much of the following as possible:
 
-Do **not** submit a prompt collection only because it is publicly visible or stored in a public GitHub repository.
-
-A candidate source must have:
-
-1. a stable canonical source URL;
-2. a clearly identifiable upstream owner/maintainer;
-3. explicit license or public-domain evidence that actually covers the submitted prompt content;
-4. enough provenance to reproduce the import;
-5. no unresolved conflict between the claimed license and the apparent origin of the material.
-
-Read `AGENTS.md` and `docs/LICENSING_POLICY.md` before preparing an import.
-
-## Required source metadata
-
-New sources should be registered in `sources/sources.yaml` before prompt data is merged.
-
-At minimum record:
-
-- source identifier;
-- source name;
-- canonical URL/repository;
+- canonical source URL or repository;
 - upstream owner/maintainer;
-- upstream license SPDX identifier where possible;
-- URL/path to license evidence;
-- revision, tag, commit or snapshot used for the import when available;
+- source type;
+- explicit license identifier;
+- direct license-evidence URL or file path;
+- whether the source appears to contain original or aggregated material;
+- approximate scope of the prompt collection;
+- relevant revision, release, tag, commit, or snapshot;
 - attribution requirements;
-- review status;
-- notes about license scope, third-party aggregation or uncertainty;
-- whether associated media may be mirrored independently of prompt text.
+- any uncertainty that should be reviewed.
 
-## Dataset rules
+Do not attach or paste a large prompt corpus while the source is still unreviewed.
 
-- Import prompt data only from sources whose intended content scope is `approved`.
-- Keep original prompt text unless normalization is explicitly documented.
-- Never remove required attribution.
-- Never fabricate an author, model, date, license, source count or verification state.
-- Do not collapse two provenance records merely because their prompt text is identical.
-- Do not mirror associated images/media unless their redistribution rights are independently verified.
-- Quarantine ambiguous records instead of guessing.
+### 2. Correct licensing or provenance
 
-## Canonical format
+Use the **License / provenance correction** issue form when:
 
-Normalized prompt records must validate against `schema/prompt.schema.json`.
+- a license changed;
+- the recorded license scope is wrong;
+- a source has a stronger canonical URL;
+- attribution is incomplete;
+- a revision or source identifier is incorrect;
+- a source appears to aggregate third-party material that was not previously disclosed.
 
-Prefer deterministic JSON/JSONL serialization and stable identifiers. Derived databases and indexes should be reproducible from canonical source data.
+### 3. Report data-quality problems
 
-## Agent-assisted source review
+Use the **Data-quality report** form for:
 
-The repository includes the project Agent Skill at:
+- malformed records;
+- duplicate handling problems;
+- broken source links;
+- incorrect model/category metadata;
+- schema violations;
+- integrity or normalization errors.
 
-`.github/skills/source-license-audit/SKILL.md`
+### 4. Request review or removal
 
-Use it as a repeatable review procedure when evaluating a new repository, dataset, website or prompt collection. Agent output is evidence-gathering support; it does not override repository governance or turn an unresolved source into an approved one.
+Use the **Removal / rights review** form for credible concerns involving:
 
-## Code contributions
+- licensing;
+- attribution;
+- ownership;
+- privacy or personal data;
+- rights of publicity;
+- content that should not be redistributed by the archive.
 
-Keep importers and validators deterministic where practical. Network-facing import code must respect upstream terms, access controls, rate limits and caching requirements.
+Do not publish sensitive personal information in the issue. Provide only the minimum evidence needed to identify the affected record/source.
 
-Never commit credentials, API keys, access tokens, cookies, private datasets or local environment files.
+## Prompt-data contribution rule
 
-## Public documentation
+**Do not submit a prompt dump simply because it was found on a public website, social network, blog, Discord, forum, or GitHub repository.**
 
-Repository-facing documentation should be written in professional English unless a contribution specifically requires another language. Use accurate descriptive terminology and avoid unsupported marketing claims or keyword stuffing.
+Before prompt content can enter `data/`:
 
-## Review principle
+1. the source must be registered in `sources/sources.yaml`;
+2. the canonical source and owner must be identified;
+3. redistribution/license evidence must be located;
+4. the evidence must be checked for scope;
+5. third-party aggregation risk must be reviewed;
+6. attribution requirements must be recorded;
+7. the source must be marked `approved`;
+8. imported records must validate against `schema/prompt.schema.json`.
 
-A source may be technically accessible and still be unsuitable for redistribution. In this repository, **provenance and license confidence take priority over dataset size**.
+A candidate, quarantined, or rejected source may be documented at the metadata/review level, but its prompt corpus must not be redistributed by this repository.
+
+## What we accept
+
+Examples of welcome contributions:
+
+- clearly licensed dataset proposals;
+- public-domain source proposals with credible evidence;
+- license-evidence improvements;
+- provenance corrections;
+- attribution corrections;
+- schema improvements;
+- dataset-card and policy improvements;
+- data-quality fixes;
+- reproducible normalization corrections;
+- documentation improvements.
+
+## What we do not accept
+
+- copied prompt dumps with unknown rights;
+- paywalled/private/leaked/access-controlled material;
+- attempts to remove required attribution;
+- knowingly false authorship, provenance, model, or license metadata;
+- third-party media without independently verified redistribution rights;
+- Carnaverone Studio first-party/proprietary prompts;
+- secrets, credentials, API keys, session cookies, or private datasets.
+
+## Pull requests
+
+Pull requests should be narrow, reviewable, and evidence-based.
+
+For data-related changes, include:
+
+- affected source IDs;
+- reason for the change;
+- license/provenance evidence when relevant;
+- whether prompt text itself changed;
+- whether attribution changed;
+- validation performed;
+- known uncertainties.
+
+Do not combine unrelated source imports or policy changes in one pull request unless there is a strong reason.
+
+## Source review states
+
+The registry uses these states:
+
+- `candidate` — discovered but not reviewed;
+- `review` — evidence is actively being evaluated;
+- `approved` — redistribution basis and intended import scope are verified;
+- `quarantined` — unresolved rights/provenance concern;
+- `rejected` — not suitable for the main archive.
+
+Only `approved` sources may contribute prompt content to the published dataset.
+
+## Licensing of contributions
+
+Repository-authored code/documentation contributions are accepted under the repository's applicable project license unless explicitly stated otherwise.
+
+Third-party prompt content is **not relicensed by contribution**. It must retain its verified upstream license and attribution requirements.
+
+If you are proposing material you personally created, do not assume that this repository automatically publishes it under a particular data license. Open Prompt Archive is currently optimized for reviewed third-party sources rather than direct first-party prompt submissions.
+
+## Conduct
+
+Participation is governed by [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+
+## Before opening a contribution
+
+Please read:
+
+- [`DATASET_CARD.md`](DATASET_CARD.md)
+- [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md)
+- [`docs/PROVENANCE_POLICY.md`](docs/PROVENANCE_POLICY.md)
+- [`docs/SOURCE_REVIEW_PROCESS.md`](docs/SOURCE_REVIEW_PROCESS.md)
+- [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md)
+
+When evidence is incomplete, **state the uncertainty instead of guessing**.
