@@ -29,9 +29,6 @@
        width="100%">
 </p>
 
-> [!CAUTION]
-> The card fields shown inside this illustration are **decorative example metadata**, not canonical release metadata. Use the verified dataset facts, manifests, schemas, and source reviews in this repository for authoritative licensing and provenance information.
-
 ---
 
 > [!IMPORTANT]
