@@ -10,7 +10,7 @@ The archive is intended to cover **image prompts, video prompts, LLM prompts, AI
 
 **Pre-release / curation bootstrap.**
 
-The repository is establishing its dataset policies, source-review process, contribution workflow, and machine-readable schema before publishing a large prompt corpus. A source is not considered approved merely because it is public, popular, or listed as a candidate.
+The repository is establishing its dataset policies, source-review process, contribution workflow, and canonical schemas before publishing a large prompt corpus. A source is not considered approved merely because it is public, popular, or listed as a candidate.
 
 No prompt-count, license status, model compatibility, or verification claim should be published unless it is backed by the repository data.
 
@@ -88,10 +88,11 @@ Example:
   "models": ["example-model"],
   "tags": ["portrait", "cinematic"],
   "source": {
-    "id": "example-source",
+    "source_id": "example-source",
     "name": "Example Source",
     "url": "https://example.org/source",
-    "author": "Example Author"
+    "author": "Example Author",
+    "revision": "<commit-tag-or-snapshot>"
   },
   "license": {
     "spdx": "CC-BY-4.0",
@@ -99,25 +100,30 @@ Example:
   },
   "provenance": {
     "retrieved_at": "2026-08-23",
-    "source_revision": "<commit-tag-or-snapshot>",
-    "sha256": "<integrity-hash>",
+    "sha256": "<sha256-integrity-hash>",
     "verified": true,
     "modified": false
   }
 }
 ```
 
-The canonical validation contract is [`schema/prompt.schema.json`](schema/prompt.schema.json).
+Canonical contracts:
+
+- [`schema/prompt.schema.json`](schema/prompt.schema.json) — prompt records;
+- [`schema/source.schema.json`](schema/source.schema.json) — source registry.
+
+See [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) for the relationship between source-level review and record-level data.
 
 ## Licensing model
 
 Open Prompt Archive is intentionally **multi-license at the data layer**.
 
-- Repository-authored software/tooling is licensed under the root [`LICENSE`](LICENSE) unless a file states otherwise.
+- Repository-authored software, schemas, templates, and documentation are licensed under the root [`LICENSE`](LICENSE) unless a file states otherwise.
 - Imported prompt data retains the upstream license recorded for its source or record.
-- Attribution and share-alike obligations remain attached to the imported material.
+- Attribution and share-alike obligations remain attached to imported material.
 - A repository-level software license is never treated as proof that aggregated third-party prompts are covered by that license.
 - Associated media is not mirrored by default.
+- SPDX identifiers are used wherever practical; repository-authored files also carry REUSE-compatible metadata.
 
 See [`NOTICE.md`](NOTICE.md) and [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md).
 
@@ -136,7 +142,7 @@ Good contributions include:
 
 Do **not** submit a copied prompt dump merely because the material is publicly accessible.
 
-Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). GitHub issue forms are provided for source proposals, license corrections, data-quality reports, and removal requests.
+Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). GitHub issue forms are provided for source proposals, license/provenance corrections, data-quality reports, and removal/rights review.
 
 ## Repository structure
 
@@ -149,8 +155,11 @@ open-prompt-archive/
 ├── CODE_OF_CONDUCT.md
 ├── GOVERNANCE.md
 ├── SECURITY.md
+├── CHANGELOG.md
 ├── LICENSE
+├── LICENSES/
 ├── NOTICE.md
+├── REUSE.toml
 │
 ├── data/                  # approved redistributable prompt data only
 ├── sources/
@@ -158,7 +167,7 @@ open-prompt-archive/
 │   └── reviews/           # human-readable source review records
 ├── schema/                # machine-readable dataset contracts
 ├── docs/                  # policies and curation documentation
-└── .github/               # contribution forms and repository automation
+└── .github/               # contribution forms and supporting agent/repo config
 ```
 
 ## Dataset card
