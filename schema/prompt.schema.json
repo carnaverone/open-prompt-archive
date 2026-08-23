@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/carnaverone/open-prompt-archive/schema/prompt.schema.json",
-  "title": "Open Prompt Archive Record",
-  "description": "Canonical normalized record for a reusable AI prompt with source, license, and provenance metadata.",
+  "title": "Open Prompt Archive Published Prompt Record",
+  "description": "Canonical published record for an approved redistributable AI prompt with source, license, and provenance metadata.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -102,12 +102,12 @@
     "license": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["spdx", "attribution_required"],
+      "required": ["spdx", "attribution_required", "scope_verified"],
       "properties": {
         "spdx": {
           "type": "string",
           "minLength": 1,
-          "description": "SPDX identifier when available; use project review policy for non-SPDX public-domain evidence."
+          "description": "Effective record license identifier. Use an SPDX identifier when available."
         },
         "url": {
           "type": ["string", "null"],
@@ -120,10 +120,28 @@
           "type": ["string", "null"]
         },
         "scope_verified": {
-          "type": "boolean",
-          "default": false
+          "const": true,
+          "description": "Published records require verified license scope."
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "attribution_required": {"const": true}
+            }
+          },
+          "then": {
+            "required": ["attribution"],
+            "properties": {
+              "attribution": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
     },
     "provenance": {
       "type": "object",
@@ -139,7 +157,8 @@
           "pattern": "^[A-Fa-f0-9]{64}$"
         },
         "verified": {
-          "type": "boolean"
+          "const": true,
+          "description": "Published records must be evidence-backed and verified."
         },
         "modified": {
           "type": "boolean"
@@ -170,7 +189,25 @@
           "license": {
             "type": ["string", "null"]
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "mirrored": {"const": true}
+              }
+            },
+            "then": {
+              "required": ["license"],
+              "properties": {
+                "license": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
       },
       "default": []
     }
