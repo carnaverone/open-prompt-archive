@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/carnaverone/open-prompt-archive/schema/prompt.schema.json",
   "title": "Open Prompt Archive Published Prompt Record",
-  "description": "Canonical published record for an approved redistributable AI prompt with source, license, and provenance metadata.",
+  "description": "Canonical published record for an approved redistributable AI prompt with source, license, provenance, and optional template metadata.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -67,6 +67,45 @@
     "language": {
       "type": ["string", "null"],
       "description": "BCP 47 language tag when known, for example en or fr-CA."
+    },
+    "template": {
+      "type": ["object", "null"],
+      "description": "Optional metadata needed to preserve a templated prompt without rendering external dataset/example content.",
+      "additionalProperties": false,
+      "properties": {
+        "engine": {
+          "type": ["string", "null"],
+          "description": "Template language/engine when known, for example jinja."
+        },
+        "dataset": {
+          "type": ["string", "null"]
+        },
+        "subset": {
+          "type": ["string", "null"]
+        },
+        "answer_choices": {
+          "type": ["string", "null"],
+          "description": "Unrendered answer-choice expression/configuration required by the template when present."
+        },
+        "choices_in_prompt": {
+          "type": ["boolean", "null"]
+        },
+        "original_task": {
+          "type": ["boolean", "null"]
+        },
+        "metrics": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "reference": {
+          "type": ["string", "null"]
+        }
+      }
     },
     "source": {
       "type": "object",
