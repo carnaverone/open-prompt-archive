@@ -1,104 +1,58 @@
-# Wuyoscar GPT-Image2-Skill — Publication Contract
+# Wuyoscar GPT-Image2-Skill — Review Hold
 
-This directory is reserved for the **approved original-only gallery subset** from Wuyoscar's GPT-Image2-Skill repository.
+This source directory is **metadata-only while the source is in `review` status**. No prompt records from Wuyoscar GPT-Image2-Skill are currently eligible for publication into Open Prompt Archive.
 
-## Source lock
+## Source reference
 
 - **Source ID:** `wuyoscar-gpt-image2-skill`
 - **Canonical upstream:** `https://github.com/wuyoscar/GPT-Image2-Skill`
 - **Reviewed revision:** `068dd9e24aadc8731e46f38548ca4dcd94515d35`
-- **Effective license for approved subset:** `MIT`
+- **Repository license:** `MIT`
+- **Registry status:** `review`
 - **Source review:** [`sources/reviews/wuyoscar-gpt-image2-skill.md`](../../../sources/reviews/wuyoscar-gpt-image2-skill.md)
 
-## Record-level eligibility rule
+## Why publication is paused
 
-The upstream contribution guide distinguishes:
+The earlier restricted-subset design relied on the upstream contribution rule that repo-generated/original gallery examples should be marked `Original`, while outside-source entries retain `Author + Source` attribution.
 
-- repo-generated/original examples whose footer ends with `Original`;
-- outside-source prompts that must carry visible `Author + Source` attribution.
+Deeper inspection of the canonical reference-gallery files at the pinned revision showed a third label: `Curated`. The upstream README describes `Curated` as repo-curated **or substantially reworked**. That is not equivalent to proof of repository-original authorship or authority to relicense every underlying prompt under MIT.
 
-Open Prompt Archive therefore publishes **only records that satisfy the original-only filter**.
-
-A record is eligible when:
-
-1. it is a canonical gallery entry at the reviewed revision;
-2. the entry is explicitly marked `Original` using the upstream convention;
-3. no outside author/source attribution indicates third-party origin;
-4. its prompt text is included in the licensed repository work;
-5. the MIT notice is preserved.
-
-Ambiguous entries are excluded.
-
-## Excluded records and assets
-
-Do not import:
-
-- outside-source prompt entries;
-- prompts attributed to external authors or social posts;
-- gallery images or reference images;
-- screenshots, banners, logos, or other media;
-- example output files;
-- prompt entries added after the reviewed revision until the source is re-reviewed.
-
-## Canonical mapping
-
-For eligible entries:
-
-| Upstream element | Open Prompt Archive field |
-|---|---|
-| gallery number / stable heading context | provenance aid only; not assumed immutable by itself |
-| title | `title` |
-| full prompt text | `prompt` |
-| model context | `models: ["gpt-image-2"]` when explicitly attached to the gallery entry/source context |
-| original marker | provenance/filter evidence; do not expose as a fake license field |
-| source repository | `source.url` / `source.source_id` |
-
-Canonical type:
+The pinned gallery therefore contains at least three provenance concepts that cannot currently be collapsed safely:
 
 ```text
-type: image
+Original      → documented contribution concept
+Curated       → repo-curated or substantially reworked; rights scope unresolved
+Author+Source → explicit outside-source provenance
 ```
 
-## Stable IDs
+Until the record-level boundary is verified, `license.scope_verified` is `false` for prompt publication from this source.
 
-Gallery numbering can change when entries are inserted or reorganized, so it should not be the sole record identity.
+## Current rule
 
-Use a deterministic content/source identifier, for example:
+Do **not** create or commit:
 
-```text
-wuyoscar-gpt-image2-<content-id>
-```
+- `part-*.jsonl` prompt shards;
+- prompt samples presented as approved data;
+- manifests with `publication.status: published`;
+- release assets containing this source's prompt text.
 
-The final content-ID canonicalization algorithm must be frozen before first publication and documented in the manifest/normalization notes.
+Do not treat `Curated` as a synonym for `Original`.
 
-## License metadata
+Explicit outside-source prompts remain excluded unless their original rights are independently verified. Images and other media remain excluded regardless of prompt review status.
 
-Every published record must record MIT and retain the relevant upstream copyright/permission notice through source attribution/NOTICE material.
+## What may remain here
 
-A suitable project-level attribution is:
+This directory may contain only compact source-review/publication-planning metadata while status is `review`.
 
-```text
-Wuyoscar / GPT-Image2-Skill — MIT
-```
+A new publication contract should replace this hold notice only after `sources/sources.yaml` returns the source to `approved` with a mechanically verifiable scope.
 
-This does not grant rights in trademarks, depicted people, or linked/generated media.
+## Evidence needed to reopen publication
 
-## Fidelity
+Useful evidence includes:
 
-Prompt text should be preserved as written in the eligible gallery entry. Do not silently translate, optimize, shorten, or modernize prompts during import.
+- authoritative upstream clarification that a defined `Curated` subset is authored/licensed under MIT;
+- a canonical and mechanically identifiable `Original` subset with no conflicting provenance signal;
+- record-level author/contributor/license metadata;
+- direct original-author licenses for specific externally sourced entries.
 
-If English and Chinese README variants contain translated prompt variants, treat them as separate upstream representations only when their provenance and semantic relationship can be documented reliably.
-
-## Publication gate
-
-Before a snapshot is published:
-
-1. parse the canonical gallery at the reviewed revision;
-2. apply the documented `Original` + no-external-attribution filter;
-3. record the number of included and excluded entries;
-4. preserve prompt text exactly after transport normalization;
-5. generate deterministic IDs;
-6. validate every record against `schema/prompt.schema.json`;
-7. retain MIT attribution/notice information;
-8. generate artifact counts, byte sizes, and SHA-256 checksums;
-9. validate the source manifest against `schema/manifest.schema.json`.
+See the human-readable source review for the full rationale.
