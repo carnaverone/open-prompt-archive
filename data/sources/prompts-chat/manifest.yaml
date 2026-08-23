@@ -1,0 +1,53 @@
+schema_version: 1
+source_id: prompts-chat
+source_revision: 25cb43d6e61974e66f3650cbc5a65482bc592552
+retrieved_at: '2026-08-23'
+review_file: sources/reviews/prompts-chat.md
+effective_license:
+  spdx: CC0-1.0
+  evidence_url: https://github.com/f/prompts.chat/blob/25cb43d6e61974e66f3650cbc5a65482bc592552/LICENSE
+approved_scope: Prompt text/data explicitly covered by the upstream CC0 declaration,
+  using pinned prompts.csv; software, book content, branding, and media excluded.
+record_schema: schema/prompt.schema.json
+normalization:
+  version: prompts-chat-v1
+  semantic_prompt_changes: false
+  notes: Stable IDs use SHA-256 over an exact JSON-array canonicalization of the five
+    decoded upstream CSV fields. Prompt text is not rewritten.
+filters:
+- name: empty-or-malformed
+  description: Exclude rows that cannot produce a valid non-empty canonical prompt
+    record.
+  records_removed: 0
+- name: exact-row-deduplication
+  description: Collapse byte-equivalent decoded source rows sharing the same deterministic
+    content ID.
+  records_removed: 0
+- name: content-policy-review
+  description: Hold heuristic credential/personal-data/abuse candidates out of canonical
+    shards until an explicit include/exclude decision exists.
+  records_removed: 0
+excluded_fields:
+- for_devs
+- type
+publication:
+  status: published
+  dataset_version: 0.1.0
+  release_tag: dataset-v0.1.0
+  release_url: null
+  published_at: '2026-08-23'
+resources:
+- name: part-00000.jsonl
+  location: data/sources/prompts-chat/part-00000.jsonl
+  format: jsonl
+  compression: null
+  record_count: 2134
+  sha256: ba8377b874c621e44d8c9b321c1ef1f95d7565867186b5e5fb8c2f908402a77c
+  bytes: 7736751
+totals:
+  record_count: 2134
+  resource_count: 1
+notes: 'Acquisition lock: prompts.csv bytes=5632658, git_blob_sha1=1bc70c691fb71cc11d8b5031efd0e1ba1b4a0697,
+  upstream_sha256=726e401c9492e8b523fb9253629e859473a272454d68a2bba315fe49f20fd2d4.
+  Contributor privacy minimization: records=1069, email_identifiers_removed=1072.
+  Pending content-review records: 0.'

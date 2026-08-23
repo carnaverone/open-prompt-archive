@@ -35,6 +35,55 @@ class PromptsChatImporterTests(unittest.TestCase):
         row = next(reader)
         self.assertEqual(row["prompt"], prompt)
 
+    def test_large_prompt_exceeding_default_csv_limit_survives_decode(self) -> None:
+        prompt = "x" * (128 * 1024 + 1)
+        buffer = io.StringIO(newline="")
+        writer = csv.writer(buffer, lineterminator="\r\n")
+        writer.writerow(MODULE.EXPECTED_COLUMNS)
+        writer.writerow(["Large example", prompt, "FALSE", "TEXT", "tester"])
+        data = buffer.getvalue().encode("utf-8")
+
+        reader = MODULE.decode_csv(data)
+        row = next(reader)
+        self.assertEqual(row["prompt"], prompt)
+
+    def test_contributor_email_only_is_minimized(self) -> None:
+        author, removed = MODULE.minimize_contributor("person@example.com")
+        self.assertIsNone(author)
+        self.assertEqual(removed, 1)
+
+    def test_contributor_mixed_identifiers_preserve_non_email(self) -> None:
+        author, removed = MODULE.minimize_contributor(
+            "octocat,person@example.com,helper"
+        )
+        self.assertEqual(author, "octocat,helper")
+        self.assertEqual(removed, 1)
+
+    def test_build_record_uses_minimized_contributor(self) -> None:
+        row = {
+            "act": "Example",
+            "prompt": "Example prompt.",
+            "for_devs": "FALSE",
+            "type": "TEXT",
+            "contributor": "person@example.com",
+        }
+        lock = {
+            "file_url": "https://example.invalid/prompts.csv",
+            "repository": "https://example.invalid/repo",
+            "revision": "abc123",
+            "license": {
+                "spdx": "CC0-1.0",
+                "evidence_url": "https://example.invalid/license",
+            },
+        }
+
+        rid = MODULE.record_id(row)
+        record = MODULE.build_record(
+            row, rid, 1, "2026-08-23", lock
+        )
+
+        self.assertIsNone(record["source"]["author"])
+
     def test_record_id_is_deterministic_and_field_sensitive(self) -> None:
         row = {
             "act": "Example",

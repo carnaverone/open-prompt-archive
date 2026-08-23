@@ -2,7 +2,28 @@
 
 All notable changes to Open Prompt Archive's public dataset structure, policies, source decisions, and releases are documented here.
 
-The project does not yet publish a versioned prompt corpus. Entries in **Unreleased** describe repository and curation changes rather than a dataset release.
+Dataset releases are versioned independently from reviewed upstream source revisions.
+
+## [0.1.0] - 2026-08-23
+
+### Data
+
+- Published the first canonical dataset snapshot from the approved `prompts-chat` source.
+- Published 2,134 canonical `CC0-1.0` prompt records from upstream revision `25cb43d6e61974e66f3650cbc5a65482bc592552`.
+- Published one 7,736,751-byte JSONL shard with SHA-256 `ba8377b874c621e44d8c9b321c1ef1f95d7565867186b5e5fb8c2f908402a77c`.
+- Used frozen normalization algorithm `prompts-chat-v1`.
+- Resolved all 10 heuristic content-review candidates explicitly; all 10 were included and zero remain pending.
+
+### Privacy
+
+- Added deterministic contributor privacy minimization for `prompts.chat`.
+- Removed 1,072 email identifiers from public `source.author` metadata across 1,069 records while retaining eligible non-email handles.
+- Prompt text and frozen record-ID inputs remain unchanged by contributor metadata minimization.
+
+### Tooling
+
+- Raised the Python CSV parser field limit only to the verified source-blob size so legitimate prompts larger than Python's default 128 KiB limit import safely.
+- Added regression coverage for large CSV fields and contributor-email minimization.
 
 ## Unreleased
 
@@ -52,8 +73,5 @@ The project does not yet publish a versioned prompt corpus. Entries in **Unrelea
 
 ### Data
 
-- No large third-party prompt corpus has been released yet.
 - Only records within the explicitly approved scope of an `approved` source are eligible for publication into `data/` or dataset release artifacts.
-- The first planned small-source publication path remains the normalized prompts.chat CC0 corpus.
-- The complete pinned prompts.chat blob is verified by source identity but exceeds the current connector's file-materialization limit; no count, acquisition SHA-256, manifest, or shard is claimed from a partial response.
 - DiffusionDB will use the large-snapshot distribution path rather than normal Git history.

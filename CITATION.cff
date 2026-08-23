@@ -2,6 +2,8 @@ cff-version: 1.2.0
 type: dataset
 message: "If you use Open Prompt Archive in research, evaluation, tooling, or another dataset, please cite this repository and preserve any upstream attribution required by the prompt records you reuse."
 title: "Open Prompt Archive"
+version: "0.1.0"
+date-released: "2026-08-23"
 authors:
   - name: "Carnaverone Studio"
 url: "https://github.com/carnaverone/open-prompt-archive"

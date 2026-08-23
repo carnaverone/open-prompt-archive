@@ -8,13 +8,22 @@ The project is designed to cover **image prompts, video prompts, LLM prompts, AI
 
 ## Status
 
-**Pre-release / active curation.**
+**Dataset v0.1.0 / active curation.**
 
-Source review is operational. No large versioned prompt corpus has been released yet. Source approval and dataset publication are deliberately separate gates: an approved source must still pass deterministic normalization, content review, schema validation, manifest generation, exact counting, and artifact checksum verification before publication.
+The first canonical Open Prompt Archive dataset snapshot is `prompts-chat` v0.1.0, derived from the pinned upstream revision `25cb43d6e61974e66f3650cbc5a65482bc592552`.
 
-The first `prompts.chat` importer and acquisition lock now exist, but no prompt count or dataset release is claimed until the complete pinned upstream file can be processed and the resulting artifacts pass the publication checklist.
+Verified publication facts:
 
-No prompt count, model-compatibility claim, license claim, or verification status should be published unless repository evidence supports it.
+- **2,134 canonical prompt records**;
+- effective prompt-data license: `CC0-1.0`;
+- normalization: `prompts-chat-v1`;
+- one JSONL shard, **7,736,751 bytes**;
+- shard SHA-256: `ba8377b874c621e44d8c9b321c1ef1f95d7565867186b5e5fb8c2f908402a77c`;
+- 10 heuristic content-review candidates, all explicitly reviewed and included;
+- 1,069 records received contributor privacy minimization, removing 1,072 email identifiers from public `source.author`;
+- zero unresolved review candidates.
+
+Source approval and dataset publication remain separate gates. Other approved sources are not necessarily published yet, and no count, compatibility claim, license claim, or verification status should be presented without repository evidence.
 
 ## Reviewed sources
 

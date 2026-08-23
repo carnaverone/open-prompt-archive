@@ -41,7 +41,7 @@ The upstream CSV is the acquisition format. It is **not** Open Prompt Archive's 
 |---|---|---|
 | `act` | `title` | Preserve source text; use `null` only when the field is empty. |
 | `prompt` | `prompt` | Preserve semantic content exactly. Do not rewrite, translate, summarize, or "improve" the prompt. |
-| `contributor` | `source.author` | Preserve upstream contributor value when present. CC0 does not require attribution, but this archive retains provenance. |
+| `contributor` | `source.author` | Preserve non-email public identifiers/handles when present. Exact email identifiers are omitted from public `source.author` as deterministic privacy minimization. The original upstream field remains part of the frozen record-ID input so source identity remains reproducible. |
 | `type` | source classification input | Raw field is not published as a model-compatibility claim. |
 | `for_devs` | source classification input | Raw field is not published in v1. |
 
@@ -95,7 +95,7 @@ Every published record from this source must include:
 }
 ```
 
-`source.author` may still preserve the upstream contributor even though attribution is not a CC0 obligation.
+`source.author` preserves eligible non-email upstream contributor identifiers even though attribution is not a CC0 obligation. Exact email identifiers are not republished in this field.
 
 ## Provenance metadata
 
@@ -126,6 +126,8 @@ The v1 importer applies deterministic screening for:
 - a narrow set of terms indicating possible credential theft, malware distribution, phishing, ransomware, keylogging, infostealing, or spam-campaign purpose.
 
 Heuristic matches are **review candidates, not automatic findings of wrongdoing or actual credential exposure**. They are held out of candidate publication shards until an explicit `include` or `exclude` decision is supplied. Problematic prompts are not silently rewritten.
+
+Contributor metadata receives a separate deterministic privacy-minimization pass. Exact email identifiers in the upstream `contributor` field are omitted from public `source.author`; non-email handles in mixed contributor fields are preserved. The importer records the number of affected records and removed email identifiers in its audit report and manifest notes. This metadata minimization does not alter prompt text or the frozen record-ID input.
 
 The staging importer separates:
 
@@ -164,7 +166,7 @@ A `published` manifest cannot be generated while review candidates remain unreso
 
 The upstream CSV is approximately 5.6 MB. Normalized data is sharded deterministically with an 8 MiB target by default, below the repository's preferred roughly-10-MiB text-shard target when practical.
 
-Expected eventual public layout:
+Canonical public layout:
 
 ```text
 data/sources/prompts-chat/

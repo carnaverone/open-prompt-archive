@@ -8,24 +8,33 @@ The dataset is intended to support prompt research, search, retrieval, curation,
 
 ## Current status
 
-**Pre-release / active curation.**
+**Dataset v0.1.0 / active curation.**
 
-The source-review system is operational and multiple sources now have evidence-backed decisions. No large versioned prompt corpus has been released yet.
+The first published source snapshot is `prompts-chat` v0.1.0:
 
-A source being `approved` does **not** mean its records are already published. Publication additionally requires source-specific mapping, deterministic identifiers, content/privacy review, schema validation, exact record counts, manifests, and artifact checksums.
+- 2,134 canonical records;
+- upstream revision `25cb43d6e61974e66f3650cbc5a65482bc592552`;
+- effective license `CC0-1.0`;
+- normalization `prompts-chat-v1`;
+- one 7,736,751-byte JSONL shard;
+- SHA-256 `ba8377b874c621e44d8c9b321c1ef1f95d7565867186b5e5fb8c2f908402a77c`;
+- all 10 heuristic review candidates explicitly resolved;
+- 1,072 contributor email identifiers omitted from public metadata across 1,069 records.
 
-Published counts must be derived from actual archive artifacts. Do not infer archive counts from upstream marketing claims or source repository descriptions.
+The source-review system remains active for additional sources. A source being `approved` does **not** mean its records are already published. Publication additionally requires source-specific mapping, deterministic identifiers, content/privacy review, schema validation, exact record counts, manifests, and artifact checksums.
+
+Published counts are derived from actual archive artifacts rather than upstream marketing claims or repository descriptions.
 
 ## Reviewed source composition
 
 Current source decisions are maintained in [`sources/sources.yaml`](sources/sources.yaml) and explained under [`sources/reviews/`](sources/reviews/).
 
-At the current pre-release stage:
+For dataset v0.1.0 and the current source-review state:
 
 - **prompts.chat** — approved for prompt text/data under `CC0-1.0`;
 - **DiffusionDB** — approved for prompt text and selected prompt-generation metadata under `CC0-1.0`, with media excluded;
 - **BigScience PromptSource / P3** — approved for prompt-template definitions and prompt-specific metadata under `Apache-2.0`, with underlying datasets and rendered examples excluded;
-- **Wuyoscar GPT-Image2-Skill** — approved only for the mechanically identifiable gallery subset explicitly marked `Original`, under `MIT`; externally sourced entries and media are excluded;
+- **Wuyoscar GPT-Image2-Skill** — review reopened; no prompt records are currently approved for publication while the `Curated` / `Original` provenance boundary is re-verified;
 - **freestylefly / awesome-gpt-image-2** — quarantined for bulk import because repository-level MIT licensing does not resolve the project's documented external/community provenance;
 - three reviewed **YouMind OpenLab** prompt collections — quarantined for bulk import pending stronger evidence that the claimed repository license covers the externally collected prompt corpus.
 
@@ -227,7 +236,7 @@ See [`docs/TAKEDOWN_POLICY.md`](docs/TAKEDOWN_POLICY.md).
 
 ## Versioning
 
-The dataset will use explicit versions once prompt records are published. Source revisions are pinned independently from archive release versions.
+The dataset uses explicit versions for published prompt snapshots. Source revisions are pinned independently from archive release versions.
 
 A versioned release should identify source revisions, record counts, schema/normalization version, material license/provenance changes, and SHA-256 checksums for distributed artifacts.
 

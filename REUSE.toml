@@ -14,7 +14,8 @@ path = [
   "sources/**",
   "data/README.md",
   "data/**/README.md",
-  "data/**/source.lock.json"
+  "data/**/source.lock.json",
+  "data/**/manifest.yaml"
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Carnaverone Studio"

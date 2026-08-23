@@ -67,6 +67,36 @@ MISUSE_RE = re.compile(
 )
 
 
+def minimize_contributor(value: str) -> tuple[str | None, int]:
+    """Remove email identifiers from public contributor metadata.
+
+    The upstream contributor field may contain one or more comma-separated
+    identifiers. Public non-email handles are preserved. Exact email
+    identifiers are omitted to minimize unnecessary personal data.
+
+    Returns:
+        (public_author_value, removed_email_identifier_count)
+    """
+    if not value:
+        return None, 0
+
+    kept: list[str] = []
+    removed = 0
+
+    for part in value.split(","):
+        identifier = part.strip()
+        if not identifier:
+            continue
+
+        if EMAIL_RE.fullmatch(identifier):
+            removed += 1
+            continue
+
+        kept.append(identifier)
+
+    return ",".join(kept) or None, removed
+
+
 class ImportFailure(RuntimeError):
     """Raised when deterministic import invariants are not satisfied."""
 
@@ -171,6 +201,10 @@ def decode_csv(data: bytes) -> csv.DictReader:
     except UnicodeDecodeError as exc:
         raise ImportFailure("Pinned prompts.csv is not valid UTF-8.") from exc
 
+    # Python's csv module defaults to a 128 KiB field limit. Some reviewed
+    # prompts legitimately exceed that size. Bound the parser to the size of
+    # the already verified source blob rather than using an unbounded limit.
+    csv.field_size_limit(len(data))
     reader = csv.DictReader(io.StringIO(text, newline=""))
     if reader.fieldnames != EXPECTED_COLUMNS:
         raise ImportFailure(
@@ -248,7 +282,7 @@ def build_record(
     lock: dict[str, Any],
 ) -> dict[str, Any]:
     title = row["act"] if row["act"] else None
-    author = row["contributor"] if row["contributor"] else None
+    author, _ = minimize_contributor(row["contributor"])
     prompt_bytes = row["prompt"].encode("utf-8")
 
     return {
@@ -445,6 +479,10 @@ def build_manifest(
         "notes": (
             f"Acquisition lock: {lock['path']} bytes={lock['bytes']}, "
             f"git_blob_sha1={lock['git_blob_sha1']}, upstream_sha256={upstream_sha256}. "
+            f"Contributor privacy minimization: "
+            f"records={counters['contributor_email_records_minimized']}, "
+            f"email_identifiers_removed="
+            f"{counters['contributor_email_identifiers_removed']}. "
             f"Pending content-review records: {counters['review_pending']}."
         ),
     }
@@ -519,6 +557,15 @@ def main() -> int:
         if rid in records_by_id or rid in flagged_ids:
             counters["duplicate_row"] += 1
             continue
+
+        _public_author, removed_email_identifiers = minimize_contributor(
+            row["contributor"]
+        )
+        if removed_email_identifiers:
+            counters["contributor_email_records_minimized"] += 1
+            counters["contributor_email_identifiers_removed"] += (
+                removed_email_identifiers
+            )
 
         record = build_record(row, rid, row_number, retrieved_at, lock)
         validate_instance(record, prompt_schema, f"record {rid}")
@@ -634,6 +681,12 @@ def main() -> int:
                 "review_included": counters["review_included"],
                 "review_excluded": counters["review_excluded"],
                 "review_pending": counters["review_pending"],
+                "contributor_email_records_minimized": counters[
+                    "contributor_email_records_minimized"
+                ],
+                "contributor_email_identifiers_removed": counters[
+                    "contributor_email_identifiers_removed"
+                ],
             },
             "publication_status": args.publication_status,
             "review_complete": counters["review_pending"] == 0,
