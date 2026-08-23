@@ -1,0 +1,58 @@
+name: Data-quality report
+description: Report malformed, duplicated, inconsistent, or incorrect published dataset records.
+title: "[Data quality] "
+body:
+  - type: input
+    id: affected_id
+    attributes:
+      label: Affected source or record ID
+      placeholder: source-id or record-id
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Data-quality issue
+      options:
+        - Malformed record
+        - Duplicate handling
+        - Broken source link
+        - Incorrect model metadata
+        - Incorrect category or tags
+        - Schema validation problem
+        - Normalization problem
+        - Integrity/hash problem
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Explain what is wrong and what the expected result should be.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or reproduction details
+      description: Include relevant paths, source links, record excerpts, or deterministic reproduction steps.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: Suggested correction
+      description: Optional. Explain how the record could be corrected without losing provenance.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: This report does not contain credentials, private data, or other sensitive information.
+          required: true
