@@ -1,0 +1,10 @@
+schema_version: 1
+project: open-prompt-archive
+
+# Source approval states:
+#   candidate | review | approved | quarantined | rejected
+#
+# No third-party source is approved merely by being listed here.
+# Every source must be reviewed against docs/LICENSING_POLICY.md.
+
+sources: []
