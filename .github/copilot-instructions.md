@@ -1,24 +1,24 @@
 # Open Prompt Archive — Copilot Instructions
 
-Open Prompt Archive is a public, provenance-first and license-aware archive of **third-party openly redistributable AI prompts** plus tooling for normalizing, validating, indexing and searching those datasets.
+Open Prompt Archive is a public, provenance-first and license-aware archive of third-party openly redistributable AI prompts plus tooling for normalizing, validating, indexing and searching those datasets.
 
 ## Scope
 
-- Do not add Carnaverone Studio first-party/private prompt collections to this repository.
-- Do not treat public accessibility as permission to redistribute.
-- Do not import third-party prompt data until its source is registered and its redistribution basis is verified.
+- Only third-party material with evidence-backed redistribution rights belongs in this repository.
+- First-party, private, proprietary or otherwise out-of-scope collections must not be imported.
+- Public accessibility is not permission to redistribute.
+- Do not import prompt data until its source is registered and its redistribution basis is verified.
 - Do not mirror third-party images, video or audio unless those media rights are independently verified.
 
 ## Repository map
 
 - `README.md` — public project overview and scope.
-- `AGENTS.md` — repository-wide agent governance.
+- `AGENTS.md` — repository-wide automation guidance.
 - `docs/LICENSING_POLICY.md` — source acceptance and provenance policy.
 - `sources/sources.yaml` — source registry and approval states.
 - `schema/prompt.schema.json` — canonical normalized prompt schema.
 - `data/` — canonical approved prompt data only.
-- `scripts/` — deterministic import/normalization/validation/index tooling.
-- `.github/skills/` — task-specific Agent Skills.
+- `scripts/` — deterministic import, normalization, validation and index tooling.
 
 ## Working rules
 
@@ -26,25 +26,13 @@ Open Prompt Archive is a public, provenance-first and license-aware archive of *
 2. Use professional English for repository-facing content unless explicitly instructed otherwise.
 3. Never invent source counts, licenses, authors, dates, model compatibility, test results or verification states.
 4. Preserve canonical URLs, revisions, attribution and provenance identifiers.
-5. Prefer quarantine/review over guessing when rights or provenance are ambiguous.
-6. Keep canonical data separate from generated caches/indexes.
+5. Prefer quarantine or review over guessing when rights or provenance are ambiguous.
+6. Keep canonical data separate from generated caches and indexes.
 7. Make normalization and validation deterministic and reproducible.
 8. Never commit credentials, cookies, tokens, private datasets or local environment files.
 
 ## Data changes
 
-For changes under `data/` or `sources/`, confirm that:
+For changes under `data/` or `sources/`, confirm the source identity, license evidence, content scope, third-party aggregation risk, attribution obligations, reviewed revision and evidence-backed status. Prompt records must validate against the canonical schema.
 
-- the source has a stable upstream identity;
-- license evidence exists and covers the intended content;
-- third-party aggregation risk has been evaluated;
-- attribution obligations are represented;
-- exact revision/snapshot is recorded when practical;
-- the source status is evidence-backed;
-- prompt records validate against the canonical schema.
-
-Do not collapse duplicate prompt text if doing so would erase independent provenance.
-
-## Quality bar
-
-Repository documentation should be concise, technically accurate, machine-readable where appropriate and naturally discoverable through descriptive terminology such as AI prompt dataset, prompt engineering, generative AI, image prompts, video prompts, LLM prompts, AI agents, open data, provenance and licensing. Avoid SEO keyword stuffing.
+Do not collapse duplicate prompt text when doing so would erase independent provenance.
