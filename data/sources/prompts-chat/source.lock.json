@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "source_id": "prompts-chat",
+  "repository": "https://github.com/f/prompts.chat",
+  "revision": "25cb43d6e61974e66f3650cbc5a65482bc592552",
+  "path": "prompts.csv",
+  "file_url": "https://github.com/f/prompts.chat/blob/25cb43d6e61974e66f3650cbc5a65482bc592552/prompts.csv",
+  "raw_url": "https://raw.githubusercontent.com/f/prompts.chat/25cb43d6e61974e66f3650cbc5a65482bc592552/prompts.csv",
+  "bytes": 5632658,
+  "git_blob_sha1": "1bc70c691fb71cc11d8b5031efd0e1ba1b4a0697",
+  "integrity_algorithm": "git-blob-sha1",
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence_url": "https://github.com/f/prompts.chat/blob/25cb43d6e61974e66f3650cbc5a65482bc592552/LICENSE"
+  },
+  "notes": "The importer must verify both byte length and Git blob identity before parsing. SHA-256 of the acquisition file is generated only from the actual acquired bytes."
+}
