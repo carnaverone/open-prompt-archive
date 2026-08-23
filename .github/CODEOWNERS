@@ -1,0 +1,10 @@
+# Default repository ownership
+* @carnaverone
+
+# High-sensitivity dataset governance paths
+/data/ @carnaverone
+/sources/ @carnaverone
+/schema/ @carnaverone
+/docs/LICENSING_POLICY.md @carnaverone
+/docs/PROVENANCE_POLICY.md @carnaverone
+/docs/TAKEDOWN_POLICY.md @carnaverone
