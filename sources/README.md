@@ -4,6 +4,20 @@
 
 The registry is validated conceptually against [`schema/source.schema.json`](../schema/source.schema.json).
 
+## Current reviewed sources
+
+| Source | Status | Claimed / effective license | Approved Open Prompt Archive scope |
+|---|---|---|---|
+| [prompts.chat](reviews/prompts-chat.md) | `approved` | `CC0-1.0` | Prompt text/data only |
+| [DiffusionDB](reviews/diffusiondb.md) | `approved` | `CC0-1.0` | Prompt text + prompt-generation metadata; media excluded |
+| [YouMind — Nano Banana Pro](reviews/youmind-nano-banana-pro.md) | `quarantined` | `CC-BY-4.0` claimed | None; bulk corpus license scope unresolved |
+| [YouMind — GPT Image 2](reviews/youmind-gpt-image-2.md) | `quarantined` | `CC-BY-4.0` claimed | None; bulk corpus license scope unresolved |
+| [YouMind — Seedance 2](reviews/youmind-seedance-2.md) | `quarantined` | `CC-BY-4.0` claimed | None; bulk corpus license scope unresolved |
+
+These decisions are intentionally source- and scope-specific. `approved` does not mean every asset in an upstream repository may be mirrored. See each review file for the exact approved material and exclusions.
+
+No prompt corpus from a quarantined source may be committed to `data/` merely because the upstream repository carries an open-license file.
+
 ## Source states
 
 - `candidate` — discovered or proposed, not yet reviewed.
@@ -34,6 +48,18 @@ A source record should identify:
 
 ## Human-readable reviews
 
-Complex reviews should be documented under [`sources/reviews/`](reviews/) using the stable source ID as the filename.
+Complex reviews are documented under [`sources/reviews/`](reviews/) using stable source IDs or unambiguous source names.
 
-Review notes should link to primary evidence and clearly distinguish facts from unresolved questions.
+Review notes should link to primary evidence and clearly distinguish:
+
+- the license claimed by the upstream project;
+- the scope for which Open Prompt Archive verified redistribution;
+- unresolved third-party-rights questions;
+- media that is explicitly excluded;
+- the revision against which the decision was made.
+
+## Review principle
+
+**An upstream open-source license is evidence, not a substitute for provenance analysis.**
+
+When a repository aggregates prompts from unrelated authors, social networks, forums, or other external sources, Open Prompt Archive verifies whether the upstream project actually has authority to place those records under the claimed license. If that link cannot be established, the source remains metadata-only until stronger evidence is available.
