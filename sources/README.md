@@ -11,7 +11,7 @@ The registry is validated conceptually against [`schema/source.schema.json`](../
 | [prompts.chat](reviews/prompts-chat.md) | `approved` | `CC0-1.0` | Prompt text/data only |
 | [DiffusionDB](reviews/diffusiondb.md) | `approved` | `CC0-1.0` | Prompt text + prompt-generation metadata; media excluded |
 | [BigScience PromptSource / P3](reviews/bigscience-promptsource.md) | `approved` | `Apache-2.0` | Prompt template definitions + prompt-specific metadata; underlying datasets excluded |
-| [Wuyoscar GPT-Image2-Skill](reviews/wuyoscar-gpt-image2-skill.md) | `approved` (restricted subset) | `MIT` | Gallery entries explicitly marked `Original`; externally sourced entries/media excluded |
+| [Wuyoscar GPT-Image2-Skill](reviews/wuyoscar-gpt-image2-skill.md) | `review` | `MIT` repository license | None while `Curated` / `Original` record-level provenance semantics are re-verified |
 | [freestylefly / awesome-gpt-image-2](reviews/freestylefly-awesome-gpt-image-2.md) | `quarantined` | `MIT` repository license | No bulk import; disclaimer documents substantial external/community provenance |
 | [YouMind — Nano Banana Pro](reviews/youmind-nano-banana-pro.md) | `quarantined` | `CC-BY-4.0` claimed | None; bulk corpus license scope unresolved |
 | [YouMind — GPT Image 2](reviews/youmind-gpt-image-2.md) | `quarantined` | `CC-BY-4.0` claimed | None; bulk corpus license scope unresolved |
@@ -19,14 +19,14 @@ The registry is validated conceptually against [`schema/source.schema.json`](../
 
 These decisions are intentionally source- and scope-specific. `approved` does not mean every asset in an upstream repository may be mirrored. See each review file for the exact approved material and exclusions.
 
-No prompt corpus from a quarantined source may be committed to `data/` merely because the upstream repository carries an open-license file.
+No prompt corpus from a source in `candidate`, `review`, `quarantined`, or `rejected` state may be committed to `data/` as approved prompt data.
 
-> **Review-status note:** `quarantined` is an Open Prompt Archive curation state, not an allegation that an upstream project is acting unlawfully or that its license declaration is invalid. It means only that this archive has not yet obtained enough evidence to redistribute the intended corpus under its own stricter provenance standard.
+> **Review-status note:** `review` and `quarantined` are Open Prompt Archive curation states, not allegations that an upstream project is acting unlawfully or that its repository license is invalid. They describe whether this archive has enough evidence to redistribute the intended prompt scope under its provenance standard.
 
 ## Source states
 
 - `candidate` — discovered or proposed, not yet reviewed.
-- `review` — license/provenance evidence is being evaluated.
+- `review` — license/provenance evidence is being evaluated or an earlier decision has been reopened.
 - `approved` — redistribution basis and intended import scope are verified.
 - `quarantined` — unresolved rights/provenance concern; metadata only, no prompt corpus distribution.
 - `rejected` — unsuitable for the main archive.
@@ -71,4 +71,4 @@ When a repository aggregates prompts from unrelated authors, social networks, fo
 
 The inverse also matters: when a project has a clear contribution workflow that treats prompt templates themselves as contributions to a licensed work, Open Prompt Archive may approve that narrowly defined prompt/template layer while still excluding independently licensed datasets or media referenced by those prompts.
 
-For mixed-origin galleries, Open Prompt Archive may approve a **mechanically identifiable original-only subset** when the upstream project explicitly distinguishes original entries from outside-source entries and the repository license covers that original material. This is preferable to treating the entire gallery as either automatically safe or automatically unusable.
+For mixed-origin galleries, a restricted subset is approvable only when the provenance boundary is both **mechanically identifiable and semantically strong enough to establish redistribution rights**. A label such as `Curated`, `edited`, or `rewritten` is not automatically equivalent to `Original` or to a verified license grant.
