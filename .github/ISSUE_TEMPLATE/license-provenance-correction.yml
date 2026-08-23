@@ -1,0 +1,71 @@
+name: License / provenance correction
+description: Report incorrect or incomplete licensing, attribution, source, or provenance metadata.
+title: "[License/provenance] "
+body:
+  - type: input
+    id: affected_id
+    attributes:
+      label: Affected source or record ID
+      placeholder: source-id or record-id
+    validations:
+      required: true
+
+  - type: input
+    id: affected_path
+    attributes:
+      label: Repository path or URL
+      placeholder: sources/sources.yaml or https://...
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue type
+      options:
+        - Incorrect license
+        - License scope unclear
+        - Missing attribution
+        - Incorrect author / creator
+        - Incorrect canonical source
+        - Incorrect revision / provenance
+        - Third-party aggregation concern
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: Current information
+      description: Describe what the archive currently states.
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: Proposed correction
+      description: State what should change and why.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Primary evidence
+      description: Provide canonical source URLs, exact license declarations, revision links, or other direct evidence.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Possible impact
+      description: Note whether published prompt content may need quarantine/removal or whether this is metadata-only.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have distinguished verified evidence from assumptions in this report.
+          required: true
