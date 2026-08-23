@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/carnaverone/open-prompt-archive/schema/source.schema.json",
+  "title": "Open Prompt Archive Source Registry",
+  "description": "Canonical schema for reviewed upstream prompt sources.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project", "sources"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "project": {
+      "type": "string",
+      "const": "open-prompt-archive"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "name",
+        "canonical_url",
+        "owner",
+        "source_type",
+        "status",
+        "license",
+        "scope",
+        "discovered_at",
+        "media_mirroring"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "github-repository",
+            "dataset-host",
+            "official-website",
+            "research-dataset",
+            "other"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["candidate", "review", "approved", "quarantined", "rejected"]
+        },
+        "license": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["spdx", "scope_verified", "attribution_required"],
+          "properties": {
+            "spdx": {
+              "type": "string",
+              "minLength": 1,
+              "description": "SPDX identifier when known. UNKNOWN may be used while a candidate is under review."
+            },
+            "evidence_url": {
+              "type": ["string", "null"],
+              "format": "uri"
+            },
+            "scope_verified": {
+              "type": "boolean"
+            },
+            "attribution_required": {
+              "type": "boolean"
+            },
+            "attribution_text": {
+              "type": ["string", "null"]
+            }
+          }
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable definition of what part of the source is being reviewed/approved."
+        },
+        "reviewed_revision": {
+          "type": ["string", "null"]
+        },
+        "discovered_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "reviewed_at": {
+          "type": ["string", "null"],
+          "format": "date"
+        },
+        "media_mirroring": {
+          "type": "string",
+          "enum": ["not-reviewed", "not-allowed", "approved", "not-applicable"]
+        },
+        "review_file": {
+          "type": ["string", "null"]
+        },
+        "notes": {
+          "type": ["string", "null"]
+        }
+      }
+    }
+  }
+}
