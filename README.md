@@ -1,98 +1,82 @@
 # Open Prompt Archive
 
-> Open-source, provenance-first and license-aware AI prompt dataset infrastructure.
+> A curated open dataset of AI prompts with verified licensing, provenance, and attribution.
 
-**Open Prompt Archive** curates redistributable AI prompts from verified public sources and normalizes them into machine-readable records with explicit provenance, licensing, attribution and integrity metadata.
+**Open Prompt Archive** is a public, source-driven archive for redistributable AI prompts. It collects prompt data from third-party sources only when the project can verify a credible redistribution basis and preserve the source, license, attribution, and provenance required to reuse that material responsibly.
 
-The project is designed for **image generation, video generation, LLMs, AI agents, coding, audio, 3D and other generative-AI workflows**. It is intended to support local search, SQLite/FTS, Parquet, RAG, APIs, CLI tools and MCP integrations without losing the legal and technical provenance of the underlying data.
+The archive is intended to cover **image prompts, video prompts, LLM prompts, AI agent prompts, coding prompts, audio prompts, 3D prompts, and other generative-AI prompt formats** over time.
 
-## Scope boundary
+## Status
 
-This repository is an archive of **third-party openly redistributable prompt sources**.
+**Pre-release / curation bootstrap.**
 
-**Carnaverone Studio first-party prompts are intentionally not published in this repository.** They are outside the scope of Open Prompt Archive and should remain in separate first-party/private repositories or products.
+The repository is establishing its dataset policies, source-review process, contribution workflow, and machine-readable schema before publishing a large prompt corpus. A source is not considered approved merely because it is public, popular, or listed as a candidate.
 
-Open Prompt Archive is also intentionally **not**:
+No prompt-count, license status, model compatibility, or verification claim should be published unless it is backed by the repository data.
 
-- a blind web scrape;
-- a dump of publicly visible prompts with unknown rights;
-- a mirror of private, paywalled or access-controlled services;
-- a place to silently relicense third-party content;
-- an automatic mirror of third-party images, video or audio.
+## Scope
 
-## Core principles
+Open Prompt Archive is for **third-party prompt collections that can be redistributed under verified terms**.
 
-1. **Provenance first** — every imported record must remain traceable to a source.
-2. **License-aware** — public availability is not treated as redistribution permission.
-3. **No silent relicensing** — imported content keeps its upstream license and attribution obligations.
-4. **Deterministic processing** — normalization and derived indexes should be reproducible.
-5. **Deduplicate without erasing history** — identical prompt text may have multiple legitimate provenance records.
-6. **Agent-readable by design** — repository policies, schemas and task-specific skills are explicit and machine-consumable.
-7. **No fake verification** — `approved` and `verified: true` are evidence-backed states, not guesses.
+### In scope
 
-## Data pipeline
+- Prompt datasets with explicit redistribution rights.
+- Openly licensed prompt repositories whose license scope actually covers the prompt content.
+- Public-domain prompt collections with credible provenance.
+- Source metadata, attribution, revision pins, and license evidence.
+- Normalized machine-readable prompt records.
+- Corrections to provenance, attribution, licensing, categorization, and data quality.
 
-```text
-candidate source
-      ↓
-license + scope evidence
-      ↓
-provenance review
-      ↓
-source status
-      ↓
-approved source only
-      ↓
-import
-      ↓
-normalize
-      ↓
-validate
-      ↓
-deduplicate while preserving provenance
-      ↓
-canonical JSONL
-      ↓
-derived SQLite / FTS / Parquet / RAG indexes
-```
+### Out of scope
 
-## Repository structure
+- Carnaverone Studio first-party or proprietary prompt collections.
+- Blind scraping of prompt websites or social platforms.
+- Publicly visible prompts with unknown or ambiguous redistribution rights.
+- Paywalled, private, leaked, access-controlled, or credential-gated material.
+- Third-party images, video, or audio unless their redistribution rights are verified independently.
+- Silent relicensing of upstream content.
+
+**Carnaverone Studio prompts are intentionally not published in this repository.**
+
+## Curation model
+
+The project uses a **source-first** workflow:
 
 ```text
-open-prompt-archive/
-├── README.md
-├── AGENTS.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── NOTICE.md
-├── .github/
-│   ├── copilot-instructions.md
-│   ├── instructions/
-│   │   └── dataset.instructions.md
-│   └── skills/
-│       └── source-license-audit/
-│           └── SKILL.md
-├── data/
-│   └── README.md
-├── docs/
-│   ├── LICENSING_POLICY.md
-│   └── REPOSITORY_DISCOVERABILITY.md
-├── schema/
-│   └── prompt.schema.json
-├── scripts/
-│   └── README.md
-└── sources/
-    └── sources.yaml
+DISCOVER
+   ↓
+SOURCE PROPOSAL
+   ↓
+LICENSE + PROVENANCE REVIEW
+   ↓
+┌────────────┬─────────────┬──────────────┐
+│ APPROVED   │ QUARANTINED │ REJECTED     │
+└─────┬──────┴─────────────┴──────────────┘
+      ↓
+IMPORT
+      ↓
+NORMALIZE
+      ↓
+VALIDATE
+      ↓
+DEDUPLICATE WITHOUT LOSING PROVENANCE
+      ↓
+PUBLISH
 ```
 
-## Canonical prompt record
+A quarantined or rejected source may be documented at the metadata/review level, but its prompt corpus must not be redistributed by this repository while rights remain unresolved.
 
-Every normalized record should answer four questions:
+See:
 
-1. What is the prompt?
-2. Where did it come from?
-3. Under what terms may it be redistributed?
-4. Can its provenance be verified later?
+- [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md)
+- [`docs/PROVENANCE_POLICY.md`](docs/PROVENANCE_POLICY.md)
+- [`docs/SOURCE_REVIEW_PROCESS.md`](docs/SOURCE_REVIEW_PROCESS.md)
+- [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md)
+- [`docs/TAKEDOWN_POLICY.md`](docs/TAKEDOWN_POLICY.md)
+
+## Dataset record model
+
+Each published prompt record must remain traceable to an approved source.
 
 Example:
 
@@ -104,6 +88,7 @@ Example:
   "models": ["example-model"],
   "tags": ["portrait", "cinematic"],
   "source": {
+    "id": "example-source",
     "name": "Example Source",
     "url": "https://example.org/source",
     "author": "Example Author"
@@ -114,117 +99,90 @@ Example:
   },
   "provenance": {
     "retrieved_at": "2026-08-23",
-    "sha256": "<sha256-of-canonical-record-or-source-content>",
+    "source_revision": "<commit-tag-or-snapshot>",
+    "sha256": "<integrity-hash>",
     "verified": true,
     "modified": false
   }
 }
 ```
 
-The canonical schema is [`schema/prompt.schema.json`](schema/prompt.schema.json).
-
-## Source approval states
-
-| State | Meaning |
-| --- | --- |
-| `candidate` | Discovered but not reviewed. |
-| `review` | License and provenance evidence are being checked. |
-| `approved` | Redistribution basis and source scope have been verified for the intended import. |
-| `quarantined` | A rights, provenance or integrity question remains unresolved. |
-| `rejected` | Not suitable for the main archive. |
-
-A GitHub license badge, public repository or downloadable file is **not** sufficient evidence by itself.
+The canonical validation contract is [`schema/prompt.schema.json`](schema/prompt.schema.json).
 
 ## Licensing model
 
-This repository uses a **per-source / per-record licensing model**.
+Open Prompt Archive is intentionally **multi-license at the data layer**.
 
-- Original software and tooling in this repository are licensed under the root [`LICENSE`](LICENSE).
-- Imported prompt data retains its upstream license.
-- Attribution requirements remain attached to the relevant source or record.
-- Ambiguous, incompatible or unverifiable sources are excluded from the main dataset.
-- Third-party media is not automatically mirrored.
+- Repository-authored software/tooling is licensed under the root [`LICENSE`](LICENSE) unless a file states otherwise.
+- Imported prompt data retains the upstream license recorded for its source or record.
+- Attribution and share-alike obligations remain attached to the imported material.
+- A repository-level software license is never treated as proof that aggregated third-party prompts are covered by that license.
+- Associated media is not mirrored by default.
 
-See [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md).
+See [`NOTICE.md`](NOTICE.md) and [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md).
 
-### Initial review allowlist
+## Contributions
 
-The following licenses may be considered after source-scope and provenance verification:
+Contributions are welcome, but the default contribution path is **source-first rather than prompt-dump-first**.
 
-- `CC0-1.0`
-- `CC-BY-4.0`
-- `CC-BY-SA-4.0` when share-alike obligations can be preserved correctly
-- `MIT`
-- `Apache-2.0`
-- `BSD-2-Clause`
-- `BSD-3-Clause`
-- clearly documented public-domain material
+Good contributions include:
 
-The following are excluded from the main archive by default:
+- proposing a clearly licensed prompt dataset or repository;
+- supplying stronger license evidence for a candidate source;
+- correcting attribution or provenance;
+- reporting a duplicate or malformed record;
+- reporting content that should be removed or reviewed;
+- improving documentation or the dataset schema.
 
-- `UNKNOWN`
-- `NOASSERTION`
-- no license
-- `All Rights Reserved`
-- non-commercial-only terms such as `CC-BY-NC-*`
-- custom terms that prohibit redistribution
-- copied or aggregated material with unresolved third-party rights
+Do **not** submit a copied prompt dump merely because the material is publicly accessible.
 
-## AI agent support
+Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). GitHub issue forms are provided for source proposals, license corrections, data-quality reports, and removal requests.
 
-Open Prompt Archive is structured so coding and research agents can operate with less ambiguity:
+## Repository structure
 
-- [`AGENTS.md`](AGENTS.md) defines repository-wide agent rules.
-- [`.github/copilot-instructions.md`](.github/copilot-instructions.md) provides GitHub Copilot repository instructions.
-- [`.github/instructions/dataset.instructions.md`](.github/instructions/dataset.instructions.md) applies stricter rules to dataset and source-registry changes.
-- [`.github/skills/source-license-audit/SKILL.md`](.github/skills/source-license-audit/SKILL.md) provides a reusable GitHub Agent Skill for source/license auditing.
+```text
+open-prompt-archive/
+├── README.md
+├── DATASET_CARD.md
+├── CITATION.cff
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+├── GOVERNANCE.md
+├── SECURITY.md
+├── LICENSE
+├── NOTICE.md
+│
+├── data/                  # approved redistributable prompt data only
+├── sources/
+│   ├── sources.yaml       # source registry
+│   └── reviews/           # human-readable source review records
+├── schema/                # machine-readable dataset contracts
+├── docs/                  # policies and curation documentation
+└── .github/               # contribution forms and repository automation
+```
 
-The goal is to make source review and dataset maintenance repeatable across human contributors, GitHub Copilot and other Agent Skills-compatible AI systems.
+## Dataset card
 
-## Planned outputs
+The project maintains [`DATASET_CARD.md`](DATASET_CARD.md) as the canonical human-readable description of dataset scope, composition, provenance, licensing, limitations, curation, and intended use.
 
-The canonical archive may generate:
+The card must distinguish clearly between **current published data** and **planned capabilities**.
 
-- JSONL datasets;
-- SQLite + FTS indexes;
-- Parquet datasets;
-- deterministic hashes/manifests;
-- local CLI search;
-- RAG indexes;
-- API and MCP interfaces.
+## Governance
 
-Derived artifacts must remain reproducible from canonical source data and must not weaken provenance or licensing metadata.
+Open Prompt Archive uses lightweight maintainer-led governance. Maintainers are responsible for source approval, license/provenance review, dataset-policy decisions, corrections, and removals.
 
-## Contributing
+See [`GOVERNANCE.md`](GOVERNANCE.md).
 
-Contributions are welcome for:
+## Citation
 
-- candidate open datasets;
-- license/provenance evidence;
-- source corrections;
-- schema improvements;
-- import and validation tooling;
-- deterministic deduplication;
-- search and indexing infrastructure.
+If you use Open Prompt Archive in research, evaluation, tooling, or another dataset, use the repository citation metadata in [`CITATION.cff`](CITATION.cff). Individual upstream attribution requirements still apply to the prompt records you reuse.
 
-Before proposing prompt data, read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/LICENSING_POLICY.md`](docs/LICENSING_POLICY.md).
+## Responsible reuse
 
-## Discoverability
+An open license on prompt text does not automatically resolve every other legal or ethical question. Model terms, trademarks, privacy, publicity rights, personal data, and rights in linked media may impose separate constraints.
 
-The project intentionally uses descriptive terminology such as **AI prompt dataset**, **prompt engineering**, **generative AI prompts**, **image prompts**, **video prompts**, **LLM prompts**, **agent prompts**, **open data**, **provenance**, **prompt licensing**, **RAG** and **MCP** so that the repository remains understandable to both people and code-search systems without keyword stuffing.
-
-Repository metadata and recommended GitHub topics are maintained in [`docs/REPOSITORY_DISCOVERABILITY.md`](docs/REPOSITORY_DISCOVERABILITY.md).
-
-## Project status
-
-**Bootstrap / source-audit phase.** Repository governance and machine-readable conventions are being established before large third-party imports begin.
-
-No source should be considered approved merely because it has been discussed, linked or listed as a candidate.
+Open Prompt Archive records provenance and licensing evidence for dataset governance; it does not provide legal advice.
 
 ## Maintainer
 
-Open Prompt Archive is maintained by **Carnaverone Studio** as an open-source/open-data infrastructure project.
-
----
-
-**Important:** Licensing and provenance information in this repository is maintained for dataset governance and does not constitute legal advice.
+Maintained by **Carnaverone Studio**.
