@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/carnaverone/open-prompt-archive/schema/prompt.schema.json",
+  "title": "Open Prompt Archive Record",
+  "description": "Canonical normalized record for a reusable AI prompt with source, license, and provenance metadata.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "prompt",
+    "type",
+    "source",
+    "license",
+    "provenance"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "title": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "negative_prompt": {
+      "type": ["string", "null"]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "llm",
+        "agent",
+        "audio",
+        "music",
+        "voice",
+        "3d",
+        "coding",
+        "multimodal",
+        "other"
+      ]
+    },
+    "models": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "language": {
+      "type": ["string", "null"],
+      "description": "BCP 47 language tag when known, for example en or fr-CA."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "name", "url"],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "repository": {
+          "type": ["string", "null"]
+        },
+        "author": {
+          "type": ["string", "null"]
+        },
+        "upstream_id": {
+          "type": ["string", "null"]
+        },
+        "revision": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["spdx", "attribution_required"],
+      "properties": {
+        "spdx": {
+          "type": "string",
+          "minLength": 1,
+          "description": "SPDX identifier when available; use project review policy for non-SPDX public-domain evidence."
+        },
+        "url": {
+          "type": ["string", "null"],
+          "format": "uri"
+        },
+        "attribution_required": {
+          "type": "boolean"
+        },
+        "attribution": {
+          "type": ["string", "null"]
+        },
+        "scope_verified": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retrieved_at", "verified", "modified"],
+      "properties": {
+        "retrieved_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "modified": {
+          "type": "boolean"
+        },
+        "transformation": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "media": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["url", "mirrored"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "kind": {
+            "type": ["string", "null"],
+            "enum": ["image", "video", "audio", "other", null]
+          },
+          "mirrored": {
+            "type": "boolean"
+          },
+          "license": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "default": []
+    }
+  }
+}
