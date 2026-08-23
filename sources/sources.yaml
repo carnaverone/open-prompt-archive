@@ -75,6 +75,46 @@ sources:
     review_file: sources/reviews/bigscience-promptsource.md
     notes: "Approved template-only scope. External dataset examples and dataset licenses remain independent and must not be imported through template rendering."
 
+  - source_id: wuyoscar-gpt-image2-skill
+    name: Wuyoscar GPT-Image2-Skill original gallery subset
+    canonical_url: https://github.com/wuyoscar/GPT-Image2-Skill
+    owner: Wuyoscar and repository contributors
+    source_type: github-repository
+    status: approved
+    license:
+      spdx: MIT
+      evidence_url: https://github.com/wuyoscar/GPT-Image2-Skill/blob/068dd9e24aadc8731e46f38548ca4dcd94515d35/LICENSE
+      scope_verified: true
+      attribution_required: true
+      attribution_text: "Wuyoscar / GPT-Image2-Skill; preserve the MIT copyright and permission notice."
+    scope: "Gallery prompt entries explicitly marked Original and not attributed to an outside source; outside-source entries and all images/media excluded."
+    reviewed_revision: 068dd9e24aadc8731e46f38548ca4dcd94515d35
+    discovered_at: 2026-08-23
+    reviewed_at: 2026-08-23
+    media_mirroring: not-allowed
+    review_file: sources/reviews/wuyoscar-gpt-image2-skill.md
+    notes: "Approved only through a record-level provenance filter using the repository's documented Original-vs-outside-source convention. Ambiguous records must be excluded."
+
+  - source_id: freestylefly-awesome-gpt-image-2
+    name: freestylefly / awesome-gpt-image-2
+    canonical_url: https://github.com/freestylefly/awesome-gpt-image-2
+    owner: freestylefly
+    source_type: github-repository
+    status: quarantined
+    license:
+      spdx: MIT
+      evidence_url: https://github.com/freestylefly/awesome-gpt-image-2/blob/de6a8ad89b6308dc49b316fcd9f7a56bf2a73273/LICENSE
+      scope_verified: false
+      attribution_required: true
+      attribution_text: "freestylefly; repository MIT notice. Third-party prompt attribution remains unresolved at bulk-corpus level."
+    scope: "Bulk prompt gallery under rights-scope review; repository disclaimer documents substantial YouMind/OpenNana/community provenance. Images/media excluded."
+    reviewed_revision: de6a8ad89b6308dc49b316fcd9f7a56bf2a73273
+    discovered_at: 2026-08-23
+    reviewed_at: 2026-08-23
+    media_mirroring: not-allowed
+    review_file: sources/reviews/freestylefly-awesome-gpt-image-2.md
+    notes: "Bulk import quarantined because repository-authored MIT licensing does not by itself resolve the documented third-party/community provenance of the prompt cases."
+
   - source_id: youmind-nano-banana-pro
     name: YouMind OpenLab — Awesome Nano Banana Pro Prompts
     canonical_url: https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts
