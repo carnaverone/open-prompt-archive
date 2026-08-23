@@ -11,8 +11,14 @@ path = [
   "schema/**",
   "scripts/**",
   "sources/**",
-  "data/README.md"
+  "data/README.md",
+  "data/**/README.md"
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Carnaverone Studio"
 SPDX-License-Identifier = "MIT"
+
+# Canonical prompt-data artifacts (for example data/**/part-*.jsonl) are
+# intentionally excluded from this repository-authored MIT annotation.
+# Published prompt records retain their effective upstream license as recorded
+# in source/record metadata and dataset manifests.
