@@ -77,15 +77,31 @@ A source being `approved` is necessary but not sufficient for publication. Publi
 - [ ] SHA-256 checksum is generated for every resource.
 - [ ] Manifest totals match the resources actually published.
 - [ ] Compression format is recorded where used.
+- [ ] Canonical record IDs are unique across all source shards.
+- [ ] No canonical `part-*.jsonl` shard exists without a corresponding manifest resource entry.
 
-## 10. Distribution
+## 10. Independent publication validation
+
+The final candidate directory must be checked independently of the importer that generated it.
+
+- [ ] `python scripts/validate_publication.py <source-dir>` returns `PASS` for the exact candidate directory.
+- [ ] The validator confirms the source is **still** `approved` at validation time.
+- [ ] The validator confirms manifest revision equals the current reviewed source revision.
+- [ ] The validator recomputes bytes and SHA-256 from final resource files.
+- [ ] The validator parses and schema-validates every JSONL record from final resources.
+- [ ] The validator independently reconciles per-resource and total record counts.
+- [ ] For a final canonical publication, `python scripts/validate_publication.py <source-dir> --require-published` returns `PASS`.
+
+An importer validating its own in-memory output is not sufficient evidence for this section.
+
+## 11. Distribution
 
 - [ ] Artifact placement follows `docs/DISTRIBUTION_POLICY.md`.
 - [ ] Git-tracked shards remain reasonably sized and reviewable.
 - [ ] Large snapshot artifacts use a versioned release instead of bloating normal Git history.
-- [ ] Quarantined/candidate/rejected source content is absent from Git and release assets.
+- [ ] Quarantined/candidate/review/rejected source content is absent from Git and release assets.
 
-## 11. Public documentation
+## 12. Public documentation
 
 - [ ] `DATASET_CARD.md` accurately describes the new published composition.
 - [ ] `CHANGELOG.md` records source additions/removals and material curation changes.
@@ -94,7 +110,7 @@ A source being `approved` is necessary but not sufficient for publication. Publi
 - [ ] Known limitations are documented.
 - [ ] Takedown/correction route remains available.
 
-## 12. Release record
+## 13. Release record
 
 For a versioned dataset release:
 
