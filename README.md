@@ -96,7 +96,9 @@ Example:
   },
   "license": {
     "spdx": "CC-BY-4.0",
-    "attribution_required": true
+    "attribution_required": true,
+    "attribution": "Example Author / Example Source",
+    "scope_verified": true
   },
   "provenance": {
     "retrieved_at": "2026-08-23",
