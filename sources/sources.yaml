@@ -55,6 +55,26 @@ sources:
     review_file: sources/reviews/diffusiondb.md
     notes: "Approved prompt-only scope. Import requires content-policy filtering and should omit hashed user identifiers/timestamps unless specifically justified for provenance."
 
+  - source_id: bigscience-promptsource
+    name: BigScience PromptSource / P3 prompt templates
+    canonical_url: https://github.com/bigscience-workshop/promptsource
+    owner: BigScience Workshop contributors
+    source_type: github-repository
+    status: approved
+    license:
+      spdx: Apache-2.0
+      evidence_url: https://github.com/bigscience-workshop/promptsource/blob/7dab96a3eeb3717cea633705135ebc488885d709/LICENSE
+      scope_verified: true
+      attribution_required: true
+      attribution_text: "BigScience PromptSource/P3 contributors; retain applicable Apache-2.0 license, copyright, and attribution notices."
+    scope: "Prompt template definitions under promptsource/templates/ and prompt-specific metadata only; underlying datasets, rendered examples, and associated media excluded."
+    reviewed_revision: 7dab96a3eeb3717cea633705135ebc488885d709
+    discovered_at: 2026-08-23
+    reviewed_at: 2026-08-23
+    media_mirroring: not-allowed
+    review_file: sources/reviews/bigscience-promptsource.md
+    notes: "Approved template-only scope. External dataset examples and dataset licenses remain independent and must not be imported through template rendering."
+
   - source_id: youmind-nano-banana-pro
     name: YouMind OpenLab — Awesome Nano Banana Pro Prompts
     canonical_url: https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts
