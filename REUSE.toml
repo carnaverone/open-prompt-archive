@@ -10,9 +10,11 @@ path = [
   "docs/**",
   "schema/**",
   "scripts/**",
+  "tests/**",
   "sources/**",
   "data/README.md",
-  "data/**/README.md"
+  "data/**/README.md",
+  "data/**/source.lock.json"
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Carnaverone Studio"
