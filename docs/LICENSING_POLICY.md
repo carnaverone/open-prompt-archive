@@ -2,6 +2,12 @@
 
 This policy governs whether third-party prompt/data content may enter the main Open Prompt Archive dataset.
 
+## Repository scope
+
+Open Prompt Archive is a **third-party open prompt archive**.
+
+Carnaverone Studio first-party, private, internal or proprietary prompt collections are intentionally outside this repository's scope and must not be published here. Those materials should remain in separate first-party/private repositories or products.
+
 ## Core rule
 
 **Publicly accessible does not mean redistributable.**
@@ -17,7 +23,7 @@ Preferred evidence, strongest first:
 3. a repository license whose scope clearly includes original content in that repository;
 4. a public-domain dedication or equivalent authoritative statement.
 
-A repository-level license alone is not sufficient when the repository appears to aggregate third-party material from other websites, social networks, blogs, or creators without evidence that those materials are covered by the same license.
+A repository-level license alone is not sufficient when the repository appears to aggregate third-party material from other websites, social networks, blogs or creators without evidence that those materials are covered by the same license.
 
 ## Initial main-dataset allowlist
 
@@ -36,17 +42,18 @@ This is an allowlist for review, **not automatic approval**.
 
 ## Excluded from the main dataset by default
 
-- `UNKNOWN`
-- `NOASSERTION`
-- no license
-- `All Rights Reserved`
-- non-commercial-only licenses such as `CC-BY-NC-*`
-- custom terms that prohibit redistribution
-- content whose claimed license scope is unclear
-- copied/aggregated material with unresolved third-party rights
-- private, paywalled, leaked, or access-controlled content
+- Carnaverone Studio first-party/private/proprietary prompt collections;
+- `UNKNOWN`;
+- `NOASSERTION`;
+- no license;
+- `All Rights Reserved`;
+- non-commercial-only licenses such as `CC-BY-NC-*`;
+- custom terms that prohibit redistribution;
+- content whose claimed license scope is unclear;
+- copied/aggregated material with unresolved third-party rights;
+- private, paywalled, leaked or access-controlled content.
 
-Such sources may be documented as candidates, but their prompt contents should not be redistributed by the main archive until the rights question is resolved.
+Such third-party sources may be documented as candidates, but their prompt contents should not be redistributed by the main archive until the rights question is resolved.
 
 ## Source approval record
 
@@ -90,9 +97,9 @@ When identical text occurs in multiple verified sources, implementations should 
 - preserve separate records; or
 - maintain one content object with multiple explicit provenance/source references.
 
-## Images, video, audio, likenesses, and trademarks
+## Images, video, audio, likenesses and trademarks
 
-Licensing of prompt text does not automatically license associated media or resolve rights of publicity, trademark, privacy, or other rights.
+Licensing of prompt text does not automatically license associated media or resolve rights of publicity, trademark, privacy or other rights.
 
 The default archive policy is therefore:
 
@@ -111,7 +118,7 @@ Recommended source states:
 - `quarantined` — unresolved conflict or rights concern;
 - `rejected` — unsuitable for the main archive.
 
-`approved` should never be inferred automatically from a filename, GitHub license badge, or repository visibility.
+`approved` should never be inferred automatically from a filename, GitHub license badge or repository visibility.
 
 ## Takedown and correction
 
