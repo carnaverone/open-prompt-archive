@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/carnaverone/open-prompt-archive/schema/manifest.schema.json",
+  "title": "Open Prompt Archive Dataset Manifest",
+  "description": "Manifest for one published or staged source-partitioned Open Prompt Archive dataset snapshot.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_id",
+    "source_revision",
+    "review_file",
+    "effective_license",
+    "approved_scope",
+    "record_schema",
+    "normalization",
+    "publication",
+    "resources",
+    "totals"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "source_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retrieved_at": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "review_file": {
+      "type": "string",
+      "minLength": 1
+    },
+    "effective_license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["spdx", "evidence_url"],
+      "properties": {
+        "spdx": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "approved_scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "record_schema": {
+      "type": "string",
+      "const": "schema/prompt.schema.json"
+    },
+    "normalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "semantic_prompt_changes"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "semantic_prompt_changes": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "records_removed": {
+            "type": ["integer", "null"],
+            "minimum": 0
+          }
+        }
+      },
+      "default": []
+    },
+    "excluded_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["staging", "published"]
+        },
+        "dataset_version": {
+          "type": ["string", "null"]
+        },
+        "release_tag": {
+          "type": ["string", "null"]
+        },
+        "release_url": {
+          "type": ["string", "null"],
+          "format": "uri"
+        },
+        "published_at": {
+          "type": ["string", "null"],
+          "format": "date"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {"const": "published"}
+            }
+          },
+          "then": {
+            "required": ["dataset_version", "published_at"],
+            "properties": {
+              "dataset_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "published_at": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "location", "format", "record_count", "sha256", "bytes"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Repository-relative path or canonical release-asset URL."
+          },
+          "format": {
+            "type": "string",
+            "enum": ["jsonl", "parquet", "csv", "other"]
+          },
+          "compression": {
+            "type": ["string", "null"],
+            "enum": ["gzip", "zstd", "zip", null]
+          },
+          "record_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[A-Fa-f0-9]{64}$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_count"],
+      "properties": {
+        "record_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resource_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "notes": {
+      "type": ["string", "null"]
+    }
+  }
+}
