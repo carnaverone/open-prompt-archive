@@ -1,0 +1,79 @@
+name: Removal / rights review
+description: Request review of licensing, attribution, ownership, privacy, or redistribution concerns.
+title: "[Rights review] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this public form only when the matter can be discussed publicly. Do not post private personal information, credentials, or confidential legal documents.
+
+  - type: input
+    id: affected_id
+    attributes:
+      label: Affected source or record ID
+      placeholder: source-id or record-id
+    validations:
+      required: true
+
+  - type: input
+    id: affected_url
+    attributes:
+      label: Repository path or URL
+      placeholder: https://...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: concern
+    attributes:
+      label: Nature of concern
+      options:
+        - Licensing / redistribution rights
+        - Attribution
+        - Ownership / authorship
+        - Privacy / personal data
+        - Private, leaked, or access-controlled source
+        - Provenance error
+        - Other rights-related concern
+    validations:
+      required: true
+
+  - type: textarea
+    id: explanation
+    attributes:
+      label: Explanation
+      description: Explain the concern and your relationship to the affected material when relevant.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: Provide public evidence sufficient to review the request. Do not include sensitive information.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: requested_action
+    attributes:
+      label: Requested action
+      options:
+        - Review only
+        - Correct metadata / attribution
+        - Temporarily quarantine content
+        - Remove affected prompt content
+        - Reject the source from the main archive
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I understand this issue is public and have not included private or sensitive information.
+          required: true
+        - label: The information in this request is accurate to the best of my knowledge.
+          required: true
