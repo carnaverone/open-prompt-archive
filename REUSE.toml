@@ -1,0 +1,18 @@
+version = 1
+
+[[annotations]]
+path = [
+  ".gitignore",
+  "*.md",
+  "CITATION.cff",
+  "REUSE.toml",
+  ".github/**",
+  "docs/**",
+  "schema/**",
+  "scripts/**",
+  "sources/**",
+  "data/README.md"
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Carnaverone Studio"
+SPDX-License-Identifier = "MIT"
