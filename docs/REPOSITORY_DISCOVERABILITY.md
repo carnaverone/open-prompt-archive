@@ -1,92 +1,111 @@
 # Repository Discoverability
 
-Open Prompt Archive should be easy to understand and find through GitHub search, general search engines, code search and AI/agent indexing without resorting to keyword stuffing.
+Open Prompt Archive should be easy to understand and find through GitHub search, general search engines, code/data indexing, and AI/agent retrieval without keyword stuffing or unsupported claims.
 
 ## Recommended GitHub description
 
 Use this repository description:
 
-> Provenance-first, license-aware open AI prompt dataset for image, video, LLM, agent, coding, audio and 3D workflows.
+> Curated open AI prompt dataset with verified licensing, provenance and attribution for image, video, LLM and agent prompts.
+
+This wording prioritizes what the repository **is now**: a curated dataset/archive with licensing and provenance controls.
 
 ## Recommended GitHub topics
 
-Use a focused set of relevant topics rather than every possible synonym:
+Use a focused set of topics that reflect the repository's current scope:
 
 - `ai-prompts`
 - `prompt-engineering`
 - `prompt-dataset`
+- `prompt-library`
 - `generative-ai`
-- `image-generation`
-- `video-generation`
-- `llm`
-- `ai-agents`
 - `open-data`
 - `dataset`
 - `provenance`
 - `licensing`
-- `rag`
-- `mcp`
-- `sqlite`
+- `creative-commons`
+- `image-generation`
+- `video-generation`
+- `llm`
+- `ai-agents`
 
-Topics should reflect actual repository capabilities. Remove or delay topics for features that do not yet exist in usable form.
+Add narrower topics such as coding/audio/3D only when the published dataset actually contains meaningful coverage in those categories.
 
-## README strategy
+Do not add `mcp`, `sqlite`, `rag`, or other tooling topics merely because they are possible future uses. Topics should describe current repository content/capabilities.
 
-The README should naturally contain the phrases users are likely to search for, especially near the beginning:
+## README search strategy
 
-- AI prompt dataset
-- prompt engineering
-- generative AI prompts
-- image prompts
-- video prompts
-- LLM prompts
-- AI agent prompts
-- open prompt library
-- prompt provenance
-- prompt licensing
-- open data
+The README should use high-value phrases naturally near the beginning and in descriptive headings:
 
-Do not create artificial keyword blocks or repeat phrases solely for ranking.
+- AI prompt dataset;
+- open prompt dataset;
+- prompt engineering;
+- generative AI prompts;
+- image prompts;
+- video prompts;
+- LLM prompts;
+- AI agent prompts;
+- prompt library;
+- prompt provenance;
+- prompt licensing;
+- open data.
 
-## GitHub search and indexing principles
+Do not create artificial keyword blocks, hidden text, repeated synonym lists, or exaggerated counts solely for ranking.
+
+## GitHub and web indexing principles
 
 Maintain:
 
-1. a specific repository name and description;
-2. a strong first paragraph in `README.md`;
-3. accurate GitHub topics;
-4. descriptive file and directory names;
-5. stable releases when datasets/tooling become versioned;
-6. changelogs or release notes for meaningful public milestones;
-7. inbound links from relevant documentation/projects when appropriate;
-8. machine-readable schemas and source manifests;
-9. useful issue/PR history rather than automated noise;
-10. consistent terminology across README, docs and metadata.
+1. a specific repository name and concise About description;
+2. an accurate first paragraph in `README.md`;
+3. focused GitHub topics;
+4. descriptive file/directory names;
+5. stable dataset releases when data is published;
+6. `CITATION.cff` and dataset-card metadata;
+7. changelog/release notes for material public milestones;
+8. source registry and machine-readable schemas;
+9. useful issue/PR history rather than automated activity noise;
+10. consistent terminology across README, dataset card, docs, source records, and releases;
+11. legitimate inbound references from projects/research that actually use the dataset.
 
-Search ranking is controlled by GitHub/search engines and cannot be guaranteed. Optimize for relevance, accuracy, authority and real project use rather than attempting to manipulate ranking.
+Search ranking is controlled by GitHub and external search engines and cannot be guaranteed. Optimize for accuracy, relevance, authority, reuse, citations, and real community activity.
 
-## Agent discoverability
+## Data/agent discoverability
 
-The repository exposes several layers of machine-readable guidance:
+The repository exposes machine-readable and agent-readable context without making agent tooling the public identity of the project:
 
-- `AGENTS.md` for general agent governance;
-- `.github/copilot-instructions.md` for GitHub Copilot repository context;
-- `.github/instructions/*.instructions.md` for path-specific constraints;
-- `.github/skills/*/SKILL.md` for reusable task-specific Agent Skills;
-- `schema/prompt.schema.json` for canonical record structure;
-- `sources/sources.yaml` for source status and provenance.
+- `DATASET_CARD.md` — dataset summary, scope, limitations, curation and use;
+- `CITATION.cff` — citation metadata;
+- `schema/prompt.schema.json` — prompt record contract;
+- `schema/source.schema.json` — source registry contract;
+- `sources/sources.yaml` — source-review status and evidence metadata;
+- `AGENTS.md` — repository governance for AI-assisted work;
+- `.github/skills/` — optional specialized review guidance.
 
-This hierarchy should remain concise and non-conflicting.
+The dataset and its evidence remain the primary product. Agent configuration is supporting infrastructure.
 
-## Future public metadata
+## Release discoverability
 
-When the first stable dataset release exists, consider adding:
+When the first verified prompt corpus is ready, each stable release should publish or document:
 
-- `CITATION.cff` if the project is intended to be cited academically;
-- release artifacts with checksums;
-- dataset cards for major published snapshots;
-- a changelog;
-- a project website or documentation page with canonical links;
-- package or dataset registry metadata if distribution moves to PyPI, Hugging Face or another registry.
+- version identifier;
+- release date;
+- verified record/source counts generated from data;
+- included source IDs;
+- license distribution summary;
+- integrity/checksum information for release artifacts where practical;
+- material schema/policy changes;
+- known limitations.
 
-Do not advertise counts, compatibility or supported formats until they are generated and verified from the repository itself.
+Consider publishing stable snapshots to a recognized dataset registry such as Hugging Face or Zenodo later, with the GitHub repository retained as the canonical governance/provenance source.
+
+## Claims policy
+
+Do not advertise:
+
+- prompt counts that were copied from upstream marketing;
+- model compatibility that was not verified;
+- license verification that did not occur;
+- rankings such as “largest”, “best”, or “most complete” without defensible evidence.
+
+Credibility is itself a discoverability asset for a provenance-first dataset.
