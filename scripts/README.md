@@ -1,6 +1,6 @@
 # Scripts
 
-This directory contains deterministic curation tooling used to ingest, verify, and maintain Open Prompt Archive. Tooling is subordinate to dataset policy and source-review decisions; it must never expand an approved source scope on its own.
+This directory contains deterministic curation tooling used to acquire, ingest, verify, and maintain Open Prompt Archive. Tooling is subordinate to dataset policy and source-review decisions; it must never expand an approved source scope on its own.
 
 ## Current tooling
 
@@ -8,9 +8,42 @@ This directory contains deterministic curation tooling used to ingest, verify, a
 scripts/
 ├── requirements.txt
 ├── validate_publication.py
+├── acquire/
+│   └── prompts_chat.py
 └── import/
     └── prompts_chat.py
 ```
+
+## Pinned acquisition
+
+### `acquire/prompts_chat.py`
+
+Acquires only the exact `prompts.csv` object already frozen in `data/sources/prompts-chat/source.lock.json`.
+
+It deliberately does **not** provide a general downloader. The acquisition helper:
+
+- accepts no arbitrary URL;
+- accepts no branch name or replacement revision;
+- reads the canonical pinned raw URL from the source lock;
+- requires HTTPS on `raw.githubusercontent.com` and the exact `f/prompts.chat/<revision>/prompts.csv` path;
+- rejects unexpected redirects rather than silently widening the source boundary;
+- requires no credential or private access method;
+- verifies the exact byte count and Git blob SHA-1 **before** retaining the download;
+- computes the acquisition SHA-256 from the actual verified bytes;
+- refuses to overwrite an existing destination, including a race-safe exclusive install;
+- can emit a machine-readable acquisition receipt.
+
+Example:
+
+```bash
+python scripts/acquire/prompts_chat.py \
+  --output build/acquisition/prompts-chat/prompts.csv \
+  --receipt build/acquisition/prompts-chat/receipt.json
+```
+
+The acquisition receipt is evidence for a local curation run; it is not itself a dataset release. The verified CSV still has to pass the importer, content-review process, and independent publication validator.
+
+## Source import
 
 ### `import/prompts_chat.py`
 
@@ -44,7 +77,7 @@ Example staging build:
 
 ```bash
 python scripts/import/prompts_chat.py \
-  --input /path/to/prompts.csv \
+  --input build/acquisition/prompts-chat/prompts.csv \
   --output-dir build/prompts-chat-2026-08-23 \
   --retrieved-at 2026-08-23
 ```
@@ -131,7 +164,7 @@ Decisions for IDs that are not review candidates on the pinned input are rejecte
 
 ## Test coverage
 
-Repository tests currently exercise deterministic prompts.chat import primitives and the independent publication validator, including multiline prompt preservation, Git blob identity, stable field-sensitive IDs, prompt SHA-256 provenance, review heuristics, deterministic sharding, checksum tamper detection, duplicate-ID rejection, and the staging-vs-published gate.
+Repository tests exercise the pinned acquisition safeguards, deterministic prompts.chat import primitives, and the independent publication validator. Coverage includes exact revision/path URL locking, byte/Git-blob verification, exclusive destination writes, multiline prompt preservation, stable field-sensitive IDs, prompt SHA-256 provenance, review heuristics, deterministic sharding, checksum tamper detection, duplicate-ID rejection, and the staging-vs-published gate.
 
 With curation dependencies installed:
 
